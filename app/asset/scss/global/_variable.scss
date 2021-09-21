@@ -4,14 +4,17 @@
   --gray-color: hsl(0, 0%, 48%);
   --text-color: hsl(0, 0%, 30%);
   --light-text-color: hsl(0, 0%, 50%);
-  --primary-color: hsl(164%, 76%, 47%);
-  --secondary-color: hsl(164%, 76%, 65%);
-  --third-color: hsl(164%, 76%, 45%);
+  --primary-color: hsl(164, 76%, 47%);
+  --secondary-color: hsl(164, 76%, 65%);
+  --third-color: hsl(164, 76%, 45%);
   --basic-hover: hsl(0, 0%, 90%);
 
   --main-font: "Noto Sans", sans-serif;
 
-  --body-size: 18px;
+  --body-size: clamp(17px, 5vw, 18px);
+  --title-header: clamp(35px, 7vw, 55px);
+  --imply-size: clamp(15px, 4vw, 20px);
+  --link-size: clamp(15px, 4vw, 20px);
   --bold: 700;
   --normal: 400;
 }
