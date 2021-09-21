@@ -24,6 +24,7 @@ body {
   line-height: 1.8;
 }
 
+// Layouts
 .container {
   width: 100%;
   max-width: 1020px;
@@ -46,4 +47,35 @@ body {
 
 .flex-between {
   justify-content: space-between;
+}
+
+// BUTTON
+.btn {
+  background-color: transparent;
+  display: inline-block;
+  border: none;
+}
+
+.btn-round {
+  --btn-size: 40px;
+  width: var(--btn-size);
+  height: var(--btn-size);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: var(--basic-hover);
+  }
+  &:active {
+    background-color: var(--basic-hover);
+    i {
+      transform: scale(0.8);
+    }
+  }
+  i {
+    color: var(--gray-color);
+    font-size: 2.5rem;
+  }
 }

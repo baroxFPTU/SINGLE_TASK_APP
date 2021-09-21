@@ -147,23 +147,29 @@ main.app
         .btn.btn-round
         input
 
-      .tasks.tasks-blank
-        img.tasks__img
-        .tasks__imply
-        a.tasks__link
-
 ```
 
 **Illustration when don't have task**
 
 ```
-
+      .tasks.tasks-blank
+        img.tasks__img
+        .tasks__imply
+        a.tasks__link
 ```
 
 **Task - not start**
 
+- need research where to put the dropdown.
+
 ```
-HTML structure here.
+.task
+  .task__header
+    .task__name
+    .task__select
+  .task__footer
+    .task__timestamp-create
+
 ```
 
 **task - started**
