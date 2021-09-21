@@ -1,0 +1,44 @@
+* {
+  transition: all 0.25s ease-in-out;
+  font-family: var(--main-font);
+}
+
+h1 {
+  font-size: 55px;
+  font-weight: var(--bold);
+  @media screen and (max-width: 425px) {
+    font-size: 35px;
+  }
+}
+
+body {
+  font-size: var(--body-size);
+  color: var(--text-color);
+  position: relative;
+  min-height: 100vh;
+  font-family: var(--main-font);
+}
+
+.container {
+  width: 100%;
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.col {
+  flex-direction: column;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
