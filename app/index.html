@@ -12,33 +12,109 @@
     />
   </head>
   <body>
-    <header class="header">
-      <div class="container">
-        <div class="row d-flex flex-between">
-          <h1 class="header__title">Single Task</h1>
-          <div class="avt-user header__avt">
-            <img src="https://source.unsplash.com/random" alt="" />
-          </div>
-        </div>
+    <header class="header container row d-flex flex-between">
+      <h1 class="header__title">Single Task</h1>
+      <div class="avt-user header__avt">
+        <img src="https://source.unsplash.com/random" alt="" />
       </div>
     </header>
-    <main class="app">
-      <div class="container">
-        <div class="col d-flex">
-          <div class="app__input d-flex">
-            <button class="btn btn-round"><i class="ri-add-fill"></i></button>
-            <input type="text" placeholder="Hôm nay bạn sẽ làm gì?" />
+
+    <main class="app container col d-flex">
+      <div class="app__input d-flex">
+        <button class="btn btn-round"><i class="ri-add-fill"></i></button>
+        <input type="text" placeholder="Hôm nay bạn sẽ làm gì?" />
+      </div>
+
+      <div class="tasks d-flex col has-task">
+        <div class="task">
+          <div class="task__header">
+            <h3 class="task__name">Hoan thanh assigned</h3>
+            <div class="task__options">
+              <button class="btn btn-round">
+                <i class="ri-more-line"></i>
+              </button>
+              <div class="dropdown">
+                <ul>
+                  <li>
+                    <a href="#"><i class="ri-pencil-fill"></i> Chỉnh sửa</a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="ri-delete-bin-5-line"></i> Xóa</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div class="tasks d-flex col is-blank">
-            <img src="./asset/img/illustration_empty.svg" alt="Empty tasks" />
-            <p class="tasks__imply">
-              Chào buổi sáng. Hãy bắt đầu ngày mới với 5 nhiệm vụ quan trọng
-              nhất.
-            </p>
-            <a href="#" class="tasks__link">Tại sao chỉ với 5?</a>
+          <div class="task__footer">
+            <div class="task__timestamp-create">10:00 AM - 20/12/2021</div>
           </div>
         </div>
+        <div class="task">
+          <div class="task__header">
+            <h3 class="task__name">Hoan thanh assigned</h3>
+            <div class="task__options">
+              <button class="btn btn-round">
+                <i class="ri-more-line"></i>
+              </button>
+              <div class="dropdown"></div>
+            </div>
+          </div>
+          <div class="task__footer">
+            <div class="task__timestamp-create">10:00 AM - 20/12/2021</div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task__header">
+            <h3 class="task__name">Hoan thanh assigned</h3>
+            <div class="task__options">
+              <button class="btn btn-round">
+                <i class="ri-more-line"></i>
+              </button>
+              <div class="dropdown"></div>
+            </div>
+          </div>
+          <div class="task__footer">
+            <div class="task__timestamp-create">10:00 AM - 20/12/2021</div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task__header">
+            <h3 class="task__name">Hoan thanh assigned</h3>
+            <div class="task__options">
+              <button class="btn btn-round">
+                <i class="ri-more-line"></i>
+              </button>
+              <div class="dropdown"></div>
+            </div>
+          </div>
+          <div class="task__footer">
+            <div class="task__timestamp-create">10:00 AM - 20/12/2021</div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task__header">
+            <h3 class="task__name">Hoan thanh assigned</h3>
+            <div class="task__options">
+              <button class="btn btn-round">
+                <i class="ri-more-line"></i>
+              </button>
+              <div class="dropdown"></div>
+            </div>
+          </div>
+          <div class="task__footer">
+            <div class="task__timestamp-create">10:00 AM - 20/12/2021</div>
+          </div>
+        </div>
+
+        <!-- <img src="./asset/img/illustration_empty.svg" alt="Empty tasks" />
+        <p class="tasks__imply">
+          Chào buổi sáng. Hãy bắt đầu ngày mới với 5 nhiệm vụ quan trọng nhất.
+        </p>
+        <a href="#" class="tasks__link">Tại sao chỉ với 5?</a>-->
       </div>
     </main>
+    <div class="btn-fixed">
+      <button class="btn btn-primary">Bắt đầu</button>
+    </div>
   </body>
 </html>

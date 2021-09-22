@@ -1,0 +1,19 @@
+.header {
+  --padding-top: 60px;
+  --padding-bottom: 60px;
+  --avt-size: 60px;
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  .header__avt {
+    flex-shrink: 0;
+    width: var(--avt-size);
+    height: var(--avt-size);
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  @media screen and (max-width: 425px) {
+    --avt-size: 40px;
+    --padding-top: 45px;
+    --padding-bottom: 25px;
+  }
+}
