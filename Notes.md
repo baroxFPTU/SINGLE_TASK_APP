@@ -166,7 +166,8 @@ main.app
 .task
   .task__header
     .task__name
-    .task__select
+    .task__options
+      button
   .task__footer
     .task__timestamp-create
 
