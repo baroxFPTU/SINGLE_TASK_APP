@@ -1,0 +1,22 @@
+{
+  "name": "single_task_app",
+  "version": "1.0.0",
+  "description": "Make your life more simple",
+  "main": "server.js",
+  "scripts": {
+    "sass": "sass --watch ./app/asset/scss:app/asset/css --style compressed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baroxFPTU/SINGLE_TASK_APP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/baroxFPTU/SINGLE_TASK_APP/issues"
+  },
+  "homepage": "https://github.com/baroxFPTU/SINGLE_TASK_APP#readme",
+  "dependencies": {
+    "sass": "^1.42.1"
+  }
+}

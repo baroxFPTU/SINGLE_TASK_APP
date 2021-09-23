@@ -67,6 +67,7 @@ After I've read a book "Design a Prosperous Life" and realized myself is a victi
   - https://www.youtube.com/watch?v=QvDmu0pe2fU&ab_channel=CodeWithMark
 
 - View what I'v completed in day/ all time.
+- add animation
 
 ## Technologies
 
@@ -85,6 +86,9 @@ After I've read a book "Design a Prosperous Life" and realized myself is a victi
 ## CSS
 
 ---
+```
+- sass map
+```
 
 ### Fonts
 

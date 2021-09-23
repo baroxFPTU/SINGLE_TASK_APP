@@ -1,0 +1,30 @@
+.task {
+  --padding-task: 20px;
+  padding: 20px;
+  width: 100%;
+  border-bottom: 1px solid var(--gray-border);
+  &:hover {
+    // background-color: var(--light-gray);
+  }
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  &__name {
+    font-size: var(--task-name-font-size);
+  }
+  &__options {
+    position: relative;
+  }
+  &__footer {
+  }
+  &__timestamp-create {
+    color: var(--light-black);
+  }
+
+  &:last-child {
+    margin-bottom: 50px;
+  }
+}

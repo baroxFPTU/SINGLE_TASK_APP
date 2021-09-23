@@ -1,6 +1,8 @@
+@use "../abstracts/mixins" as *;
+
 .header {
-  --padding-top: 60px;
-  --padding-bottom: 60px;
+  --padding-top: 55px;
+  --padding-bottom: 45px;
   --avt-size: 60px;
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
@@ -11,7 +13,7 @@
     border-radius: 50%;
     overflow: hidden;
   }
-  @media screen and (max-width: 425px) {
+  @include responsive("mobile") {
     --avt-size: 40px;
     --padding-top: 45px;
     --padding-bottom: 25px;
