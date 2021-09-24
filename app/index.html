@@ -20,7 +20,7 @@
     </header>
 
     <main class="app container col d-flex">
-      <div class="app__input d-flex">
+      <!-- <div class="app__input d-flex">
         <button class="btn btn-round"><i class="ri-add-fill"></i></button>
         <input type="text" placeholder="Hôm nay bạn sẽ làm gì?" />
       </div>
@@ -106,12 +106,40 @@
           </div>
         </div>
 
-        <!-- <img src="./asset/img/illustration_empty.svg" alt="Empty tasks" />
+       <img src="./asset/img/illustration_empty.svg" alt="Empty tasks" />
         <p class="tasks__imply">
           Chào buổi sáng. Hãy bắt đầu ngày mới với 5 nhiệm vụ quan trọng nhất.
         </p>
-        <a href="#" class="tasks__link">Tại sao chỉ với 5?</a>-->
+        <a href="#" class="tasks__link">Tại sao chỉ với 5?</a>
+      </div> -->
+      <div class="timer">
+        <span class="hours">00</span>
+        <span class="minutes">00</span>
+        <span class="seconds">00</span>
       </div>
+      <div class="task" data-status="started">
+        <div class="task__header">
+          <h3 class="task__name">Hoan thanh assigned</h3>
+          <div class="task__options">
+            <button class="btn btn-round">
+              <i class="ri-more-line"></i>
+            </button>
+            <div class="dropdown">
+              <ul>
+                <li></li>
+                  <a href="#"><i class="ri-pencil-fill"></i> Chỉnh sửa</a>
+                </li>
+                <li>
+                  <a href="#"><i class="ri-delete-bin-5-line"></i> Xóa</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="task__footer">
+          <div class="task__timestamp-create">10:00 AM - 20/12/2021</div>
+        </div>
+        <img src="./asset/img/illustration_ondoing.svg" alt="" class="task__img">
     </main>
     <div class="btn-fixed">
       <button class="btn btn-primary">Bắt đầu</button>
