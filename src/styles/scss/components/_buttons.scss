@@ -1,0 +1,55 @@
+@use "../abstracts/mixins" as *;
+
+.btn {
+  background-color: transparent;
+  display: inline-block;
+  border: none;
+}
+
+.btn-round {
+  --btn-size: 40px;
+  width: var(--btn-size);
+  height: var(--btn-size);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  padding: 5px;
+  &:hover {
+    background-color: var(--btn-round-hover);
+    i {
+      color: var(--btn-icon-hover-color);
+    }
+  }
+  &:active {
+    background-color: var(--btn-round-hover);
+  }
+  i {
+    color: var(--btn-icon-color);
+    font-size: 2.3rem;
+  }
+}
+
+.btn-primary {
+  background-color: var(--btn-primary-color);
+  color: #fff;
+  padding: 10px 25px;
+  min-width: 275px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  bottom: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px;
+  &:hover {
+    background-color: var(--third);
+  }
+
+  @include responsive("mobile") {
+    --padding: calc(var(--padding-container) * 2);
+    width: calc(100% - var(--padding));
+    min-width: unset;
+  }
+}

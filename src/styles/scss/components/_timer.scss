@@ -1,0 +1,13 @@
+@use "../abstracts/functions" as *;
+
+.timer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: rem(25);
+  margin-bottom: rem(30);
+  & > * {
+    font-size: var(--timer-font-size);
+  }
+}

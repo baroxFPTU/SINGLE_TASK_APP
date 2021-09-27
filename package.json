@@ -2,8 +2,11 @@
   "name": "single_task_app",
   "version": "1.0.0",
   "description": "Make your life more simple",
+  "type": "module",
   "main": "server.js",
   "scripts": {
+    "start": "node --experimental-specifier-resolution=node src/server.js",
+    "dev": "nodemon --experimental-specifier-resolution=node src/server.js",
     "sass": "sass --watch ./app/asset/scss:app/asset/css --style compressed"
   },
   "repository": {

@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+
+:root {
+  --main-font: "Noto Sans", sans-serif;
+
+  --body-font-size: clamp(17px, 5vw, 18px);
+  --title-header-font-size: clamp(35px, 7vw, 45px);
+  --imply-font-size: clamp(15px, 4vw, 20px);
+  --link-font-size: clamp(15px, 4vw, 20px);
+  --task-name-font-size: clamp(17px, 5vw, 27px);
+  --task-name-started-font-size: clamp(25px, 5vw, 40px);
+  --timer-font-size: clamp(40px, 10vw, 130px);
+  --bold: 700;
+  --normal: 400;
+
+  --padding-container: 20px;
+}
+
+h1 {
+  font-size: var(--title-header-font-size);
+  font-weight: var(--bold);
+}
