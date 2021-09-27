@@ -1,0 +1,27 @@
+@use "../abstracts/mixins" as *;
+
+.app__input {
+  --input-font-size: clamp(16px, 5vw, 25px);
+  --padding-input: 20px;
+  background-color: var(--light-gray);
+  padding: 30px;
+  width: 100%;
+  padding: var(--padding-input);
+  border-radius: 15px;
+  margin-bottom: 30px;
+  input {
+    margin-left: 10px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    font-size: var(--input-font-size);
+  }
+  .btn-round:hover {
+    transform: scale(1.1);
+  }
+
+  @include responsive("mobile") {
+    // --input-font-size: 20px;
+    --padding-input: 10px;
+  }
+}

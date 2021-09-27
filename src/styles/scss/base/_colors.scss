@@ -1,0 +1,18 @@
+:root {
+  --body-bg-color: hsl(0, 0%, 100%);
+  --light-gray: hsl(0, 0%, 98%);
+  --gray-border: hsl(0, 0%, 90%);
+  --gray: hsl(0, 0%, 48%);
+  --black: hsl(0, 0%, 30%);
+  --light-black: hsl(0, 0%, 50%);
+  --btn-primary-color: hsl(164, 76%, 47%);
+  --link-dropdown-hover-color: var(--light-gray);
+  --text-dropdown-hover-color: var(--black);
+  --link-color: var(--btn-primary-color);
+  --secondary: hsl(164, 76%, 65%);
+  --third: hsl(164, 76%, 45%);
+  --btn-round-hover: hsl(0, 6%, 95%);
+  --btn-icon-color: hsl(0, 0%, 70%);
+  --btn-icon-hover-color: hsl(0, 0%, 35%);
+  --task-started-bg-color: var(--light-gray);
+}

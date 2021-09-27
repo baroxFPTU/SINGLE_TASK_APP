@@ -1,0 +1,14 @@
+* {
+  transition: all 0.25s ease-in-out;
+  font-family: var(--main-font);
+}
+
+body {
+  font-size: var(--body-font-size);
+  color: var(--black);
+  position: relative;
+  min-height: 100vh;
+  font-family: var(--main-font);
+  line-height: 1.8;
+  background-color: var(--body-bg-color);
+}

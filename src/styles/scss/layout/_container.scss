@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 0 var(--padding-container);
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.col {
+  flex-direction: column;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
