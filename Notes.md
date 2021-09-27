@@ -86,7 +86,6 @@ After I've read a book "Design a Prosperous Life" and realized myself is a victi
 ## CSS
 
 ---
-
 ```
 - sass map
 ```
@@ -182,45 +181,29 @@ main.app
 
 ```
 
-span.task__time
-.task
-  img.task__img
-  .task__header
-    .task__name
-    .task__options
-      button
-  .task__footer
-    .task__timestamp-create
+```
+
+**Timer**
+
+```
+
+```
+
+**button**
+
+```
+HTML structure here.
+```
+
+**dropdown**
+
+```
+HTML structure here.
 ```
 
 ## NodeJS
 
 ---
-
-- routes
-- Models
-- Controllers
-- Services
-- config
-- utils
-- middleware
-- views
-- public
-
-```
-.
-|
-|
-src
-|   server.js
-|
-|___routes
-|
-|___models
-|
-|___controllers
-
-```
 
 ### Models
 
