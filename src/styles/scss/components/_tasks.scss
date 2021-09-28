@@ -7,7 +7,26 @@
   height: var(--height);
   overflow-y: auto;
   position: relative;
+  &.has-task::after {
+    content: "";
+    position: absolute;
+    // z-index: 5;
+    bottom: 0;
+    width: inherit;
+    height: 70px;
+    background: linear-gradient(
+      0deg,
+      var(--body-bg-color),
+      rgba(255, 255, 255, 0)
+    );
+  }
   &.is-blank {
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__blank {
+    display: flex;
     justify-content: center;
     align-items: center;
     img {
@@ -26,7 +45,6 @@
       text-align: center;
     }
   }
-
   @include responsive("mobile") {
     --height: 55vh;
 

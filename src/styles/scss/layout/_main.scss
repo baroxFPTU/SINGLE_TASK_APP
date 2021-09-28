@@ -6,6 +6,7 @@
   &.has-task::after {
     content: "";
     position: absolute;
+    z-index: 5;
     bottom: 0;
     width: inherit;
     height: 70px;

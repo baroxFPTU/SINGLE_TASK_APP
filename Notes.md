@@ -86,6 +86,7 @@ After I've read a book "Design a Prosperous Life" and realized myself is a victi
 ## CSS
 
 ---
+
 ```
 - sass map
 ```
@@ -255,3 +256,8 @@ POST /auth/facebook/callback
 ```
 
 ### Controllers
+
+## issues
+
+- The gradient for '.tasks' still depend on parent '.app'
+- optimize the step init start button.
