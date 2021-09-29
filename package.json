@@ -20,6 +20,14 @@
   },
   "homepage": "https://github.com/baroxFPTU/SINGLE_TASK_APP#readme",
   "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.4",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.8",
     "sass": "^1.42.1"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.13"
   }
 }

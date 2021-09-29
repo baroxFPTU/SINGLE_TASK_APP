@@ -12,6 +12,9 @@
   flex-direction: column;
   &:hover {
     // background-color: var(--light-gray);
+    .task__options {
+      opacity: 1;
+    }
   }
   &__header {
     display: flex;
@@ -25,6 +28,7 @@
   }
   &__options {
     position: relative;
+    opacity: 0;
     z-index: var(--index-front);
   }
   &__footer {

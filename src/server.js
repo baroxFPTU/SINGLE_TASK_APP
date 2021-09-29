@@ -1,11 +1,17 @@
 import express from 'express';
 import exphbs from 'express-handlebars';
+import dotenv from 'dotenv';
+import path from 'path';
 
+import { connectDB } from './config/database.js';
 import { initRoute } from './routes/web-app/index.js';
 import { initAPIs } from './routes/api/index.js';
 
+dotenv.config({path:'src/config/.env'});
+
 const PORT = 2703;
 const app = express();
+connectDB();
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());

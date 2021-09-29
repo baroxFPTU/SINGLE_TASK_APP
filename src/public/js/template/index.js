@@ -1,7 +1,7 @@
 const template = {
     task: {
         one(name, timestamp) {
-            return `<div class="task">
+            return `<div class="task js-task" data-selection-id="_${timestamp}">
                         <div class="task__header">
                         <h3 class="task__name">${name}</h3>
                         <div class="task__options">
