@@ -24,9 +24,21 @@ export const utils = (() => {
         return data ? JSON.parse(data) : null;
     }
 
+    const clearLocalStorage = (name) => {
+        localStorage.removeItem(name);
+    }
+
+    const hasClass = (elm, className) => {
+        if (!elm) return console.error('Can not check undefined element');
+
+        return elm.classList.contains(className) ? true : false;
+    }
+
     return {
         setSelectionID,
-        saveToLocalStorage
+        saveToLocalStorage,
+        hasClass,
+        clearLocalStorage 
     }
 
 })();

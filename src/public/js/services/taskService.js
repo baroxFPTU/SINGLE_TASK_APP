@@ -1,5 +1,18 @@
+import { template } from '../template/index.js';
+import { Button } from '../components/button.js';
+import { utils } from '../utils/index.js';
+
+import { taskContainer, blankTaskClassName} from '../constants/index.js';
+
 export const taskService = (() => {
-    const fetchNewTask = async (task) => {
+    let countTask = 0;
+
+    /**
+     * Module fetch task data to server.
+     * @param {*} task 
+     * @returns JSON 
+     */
+    const fetchTaskToServer = async (task) => {
         const data = {
             name: task.name,
             createdAt: task.createdAt,
@@ -20,8 +33,56 @@ export const taskService = (() => {
         }
 
     }
+    const removeBlankTask = ()=> {
+        const blankTaskElm = document.querySelector(blankTaskClassName);
+        if (blankTaskElm) blankTaskElm.remove(); 
+    }
+
+    const handleTaskContainter = (task) => {
+        const htmls = template.task.one(task.name, task.createdAt);
+
+        taskContainer.insertAdjacentHTML('beforeend', htmls);
+
+        if (utils.hasClass(taskContainer, 'is-blank')) {
+            taskContainer.classList.remove('is-blank');
+            taskContainer.classList.add('has-task');
+            taskContainer.parentElement.classList.add('has-task');
+            console.log('run')
+        };
+    }
+
+    const handleNewTask = async function(input) {
+        countTask++;
+
+        if (countTask > 5) { return console.log('Enough! stop.') }
+
+        const task = {
+            name: input.value.trim(),
+            createdAt: Date.now(),
+        }
+        input.value = ''; 
+        if (task.name == '') return;
+    
+        utils.saveToLocalStorage('tasks', task);
+        removeBlankTask();
+        handleTaskContainter(task);
+        
+        const startButton = Button;
+        startButton.init('start');
+        
+        try {
+            const response = await fetchTaskToServer(task);
+            if (await response) {
+                utils.setSelectionID( response);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
 
     return {
-        create: fetchNewTask,
+        fetch: fetchTaskToServer,
+        create: handleNewTask
     }
 })();
