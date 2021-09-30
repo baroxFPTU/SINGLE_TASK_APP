@@ -4,6 +4,7 @@ node_modules
 
 ### dotenv ###
 .env
+src/config/.env
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv
 app/
