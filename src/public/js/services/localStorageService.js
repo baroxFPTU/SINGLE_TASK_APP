@@ -29,8 +29,8 @@ export const localStorageService = (function () {
 
             const _newData = _data.map(item => {
                 if (item.id == id || item._id == id) {
-                   return item = newData;
                     console.log(item);
+                   return item = newData;
                 }
 
                 return item;

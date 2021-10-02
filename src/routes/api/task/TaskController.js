@@ -1,16 +1,25 @@
 import Task from './TaskModel.js';
 
 export const taskController = (() => {
-    const create = (req, res, next) => {
+    const create = async (req, res, next) => {
         const taskName = req.body.name;
         const taskCreatedAt = req.body.createdAt;
-        const task = new Task({
+        let task = new Task({
             name: taskName,
             createdAt: taskCreatedAt
         });
 
+        try {
+            task = await task.save();
+            res.json(task);
+        } catch (error) {
+            console.error(error);
+            res.json({
+                status: 400,
+                message: 'Cannot create task.'
+            })
+        }
 
-        res.json(task);
     }
 
     return {

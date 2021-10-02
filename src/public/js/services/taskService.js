@@ -19,15 +19,15 @@ export const taskService = (function (){
         }
         
         try {
-            const _task = await fetch(`http://localhost:2703/api/task/new`, {
+            const response = await fetch(`http://localhost:2703/api/task/new`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data),
             });
-            
-            return _task.json()
+
+            return response;
         } catch (error) {
             console.log(error);
         }
@@ -52,16 +52,16 @@ export const taskService = (function (){
     }
 
     const handleNewTask = async function(input) {
-        countTask++;
+        const startButton = Button;
         const taskStorage = localStorageService.get(NAME_ARRAY_LOCAL) || 0;
-
-        if (countTask > TASK_LIMIT || taskStorage.length > TASK_LIMIT - 1) { return console.log('Enough! stop.') }
-
         const task = {
             id: Date.now(),
             name: input.value.trim(),
             createdAt: Date.now(),
         }
+
+        countTask++;
+        if (countTask > TASK_LIMIT || taskStorage.length > TASK_LIMIT - 1) { return console.log('Enough! stop.') }
 
         input.value = ''; 
         if (task.name == '') return;
@@ -69,23 +69,24 @@ export const taskService = (function (){
         localStorageService.save('tasks', task);
         renderTask(task);
         
-        const startButton = Button;
         startButton.init('start');
-        
+
         try {
-            const response = await fetchTask(task);
-            if (await response) {
-                utils.setSelectionID(response);
-                console.log('response id' + response._id);
-                const oldID = task.id;
+            let response = await fetchTask(task);
+            const oldID = task.id;
+            
+            if (await response.ok) {
+                const data = await response.json();
+
+                utils.setSelectionID(data);
                 localStorageService.updateById({
                     nameItem: NAME_ARRAY_LOCAL,
                     id: oldID,
-                    newData: response,
+                    newData: data,
                 });
             }
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
 
     }
