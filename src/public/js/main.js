@@ -1,12 +1,10 @@
 import { taskService } from './services/taskService.js';
-import { input, addButton} from './constants/index.js';
+import { localStorageService } from './services/localStorageService.js';
+import { Button } from './components/button.js';
 
-// const input = document.querySelector('.js-input');
-// const addButton = document.querySelector('.js-add-button');
-// const taskContainer = document.querySelector('.js-task-container');
+import { input, addButton, NAME_ARRAY_LOCAL} from './constants/index.js';
 
-
-const app =(() => {
+const app =(function (){
   const handleEvents = function() {
     
     if (input) {
@@ -24,10 +22,20 @@ const app =(() => {
 
   return {
     run() {
+        const _tasks =  localStorageService.get(NAME_ARRAY_LOCAL);
+        if (_tasks) {
+          _tasks.forEach((task) => {
+            taskService.render(task);
+          });
+
+          const startButton = Button;
+          startButton.init('start');
+        }
+
         handleEvents();
     }
   }
-})();
+}());
 
 
 app.run();

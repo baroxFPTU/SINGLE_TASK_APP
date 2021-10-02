@@ -5,5 +5,4 @@ const router = express.Router();
 
 router.post('/new', taskController.create);
 
-
 export default router;

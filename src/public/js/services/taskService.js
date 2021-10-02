@@ -1,10 +1,10 @@
 import { template } from '../template/index.js';
 import { Button } from '../components/button.js';
 import { utils } from '../utils/index.js';
+import { localStorageService } from './localStorageService.js';
+import { taskContainer, blankTaskClassName, TASK_LIMIT, NAME_ARRAY_LOCAL} from '../constants/index.js';
 
-import { taskContainer, blankTaskClassName} from '../constants/index.js';
-
-export const taskService = (() => {
+export const taskService = (function (){
     let countTask = 0;
 
     /**
@@ -12,7 +12,7 @@ export const taskService = (() => {
      * @param {*} task 
      * @returns JSON 
      */
-    const fetchTaskToServer = async (task) => {
+    const fetchTask = async function fetchTaskToServer (task) {
         const data = {
             name: task.name,
             createdAt: task.createdAt,
@@ -38,42 +38,51 @@ export const taskService = (() => {
         if (blankTaskElm) blankTaskElm.remove(); 
     }
 
-    const handleTaskContainter = (task) => {
-        const htmls = template.task.one(task.name, task.createdAt);
+    const renderTask = (task) => {
+        const htmls = template.task.one(task);
 
+        removeBlankTask();
         taskContainer.insertAdjacentHTML('beforeend', htmls);
 
         if (utils.hasClass(taskContainer, 'is-blank')) {
             taskContainer.classList.remove('is-blank');
             taskContainer.classList.add('has-task');
             taskContainer.parentElement.classList.add('has-task');
-            console.log('run')
         };
     }
 
     const handleNewTask = async function(input) {
         countTask++;
+        const taskStorage = localStorageService.get(NAME_ARRAY_LOCAL) || 0;
 
-        if (countTask > 5) { return console.log('Enough! stop.') }
+        if (countTask > TASK_LIMIT || taskStorage.length > TASK_LIMIT - 1) { return console.log('Enough! stop.') }
 
         const task = {
+            id: Date.now(),
             name: input.value.trim(),
             createdAt: Date.now(),
         }
+
         input.value = ''; 
         if (task.name == '') return;
     
-        utils.saveToLocalStorage('tasks', task);
-        removeBlankTask();
-        handleTaskContainter(task);
+        localStorageService.save('tasks', task);
+        renderTask(task);
         
         const startButton = Button;
         startButton.init('start');
         
         try {
-            const response = await fetchTaskToServer(task);
+            const response = await fetchTask(task);
             if (await response) {
-                utils.setSelectionID( response);
+                utils.setSelectionID(response);
+                console.log('response id' + response._id);
+                const oldID = task.id;
+                localStorageService.updateById({
+                    nameItem: NAME_ARRAY_LOCAL,
+                    id: oldID,
+                    newData: response,
+                });
             }
         } catch (error) {
             console.log(error)
@@ -82,7 +91,8 @@ export const taskService = (() => {
     }
 
     return {
-        fetch: fetchTaskToServer,
-        create: handleNewTask
+        fetch: fetchTask,
+        create: handleNewTask,
+        render: renderTask,
     }
-})();
+}());

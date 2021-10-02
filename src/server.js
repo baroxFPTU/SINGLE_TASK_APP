@@ -1,7 +1,6 @@
 import express from 'express';
 import exphbs from 'express-handlebars';
 import dotenv from 'dotenv';
-import path from 'path';
 
 import { connectDB } from './config/database.js';
 import { initRoute } from './routes/web-app/index.js';

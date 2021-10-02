@@ -1,6 +1,6 @@
 import { template } from "../template/index.js";
 
-export const Button = (() => {
+export const Button = (function () {
     let isEnabled = false;
     return {
         init(type) {
@@ -23,4 +23,4 @@ export const Button = (() => {
             return (isEnabled) ? isEnabled : false;
         }
     }
-})();
+}());
