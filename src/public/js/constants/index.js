@@ -4,3 +4,4 @@ export const taskContainer = document.querySelector('.js-task-container');
 export const blankTaskClassName = '.js-blank-task';
 export const TASK_LIMIT = 5;
 export const NAME_ARRAY_LOCAL = 'tasks';
+export const API_URL = 'http://localhost:2703/api';

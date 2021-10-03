@@ -21,9 +21,16 @@ const app =(function (){
   }
 
   return {
-    run() {
-        const _tasks =  localStorageService.get(NAME_ARRAY_LOCAL);
-        if (_tasks) {
+    async run() {
+        const _tasksFromLocal =  localStorageService.get(NAME_ARRAY_LOCAL);
+        const _tasksFromServer = await taskService.getTaskToday();
+        if (_tasksFromLocal || await _tasksFromServer) {
+          const _tasks = _tasksFromLocal || _tasksFromServer.tasks;
+
+          localStorage.setItem(NAME_ARRAY_LOCAL, JSON.stringify(_tasks))
+
+          console.log(_tasks);
+
           _tasks.forEach((task) => {
             taskService.render(task);
           });

@@ -2,13 +2,13 @@ import { template } from '../template/index.js';
 import { Button } from '../components/button.js';
 import { utils } from '../utils/index.js';
 import { localStorageService } from './localStorageService.js';
-import { taskContainer, blankTaskClassName, TASK_LIMIT, NAME_ARRAY_LOCAL} from '../constants/index.js';
+import { taskContainer, blankTaskClassName, TASK_LIMIT, NAME_ARRAY_LOCAL, API_URL} from '../constants/index.js';
 
 export const taskService = (function (){
     let countTask = 0;
 
     /**
-     * Module fetch task data to server.
+     * Fetch task data to server.
      * @param {*} task 
      * @returns JSON 
      */
@@ -19,7 +19,7 @@ export const taskService = (function (){
         }
         
         try {
-            const response = await fetch(`http://localhost:2703/api/task/new`, {
+            const response = await fetch(`${API_URL}/task/new`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -33,6 +33,7 @@ export const taskService = (function (){
         }
 
     }
+
     const removeBlankTask = ()=> {
         const blankTaskElm = document.querySelector(blankTaskClassName);
         if (blankTaskElm) blankTaskElm.remove(); 
@@ -88,12 +89,30 @@ export const taskService = (function (){
         } catch (error) {
             console.log(error);
         }
+    }
 
+    const getTaskToday = async function () {
+        try {
+            const response = await fetch(`${API_URL}/task/today`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (response.status !== 200) { throw new Error}
+
+            return response.json();
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
     }
 
     return {
         fetch: fetchTask,
         create: handleNewTask,
         render: renderTask,
+        getTaskToday
     }
 }());
