@@ -6,7 +6,6 @@ import { input, addButton, NAME_ARRAY_LOCAL} from './constants/index.js';
 
 const app =(function (){
   const handleEvents = function() {
-    
     if (input) {
         addButton.addEventListener('click', function () {
             taskService.create(input);
@@ -28,8 +27,6 @@ const app =(function (){
           const _tasks = _tasksFromLocal || _tasksFromServer.tasks;
 
           localStorage.setItem(NAME_ARRAY_LOCAL, JSON.stringify(_tasks))
-
-          console.log(_tasks);
 
           _tasks.forEach((task) => {
             taskService.render(task);
