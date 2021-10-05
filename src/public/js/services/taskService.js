@@ -2,6 +2,7 @@ import { template } from '../template/index.js';
 import { Button } from '../components/button.js';
 import { utils } from '../utils/index.js';
 import { localStorageService } from './localStorageService.js';
+import { timeService } from './timeService.js';
 import { appContainer, taskContainer, blankTaskClassName, TASK_LIMIT, NAME_ARRAY_LOCAL, API_URL} from '../constants/index.js';
 
 export const taskService = (function (){
@@ -115,15 +116,20 @@ export const taskService = (function (){
 
         const htmls = template.task.started(_task);
         appContainer.innerHTML = htmls;
+
         const button = Button;
         button.reset();
         button.init('complete');
+
+        timeService.start();
     }
 
     const complete = async function () {
         const taskID = document.querySelector('.task').getAttribute('data-selection-id');
         console.log('complete');
         console.log(taskID);
+        timeService.stop();
+        // alert('complete' + timeService.elapsedTime());
     }
 
     return {

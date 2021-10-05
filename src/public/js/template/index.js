@@ -21,9 +21,9 @@ const template = {
 
             return `
                     <div class="timer">
-                        <span class="hours">00</span>
-                        <span class="minutes">00</span>
-                        <span class="seconds">00</span>
+                        <span class="hours js-hours-output">00</span>
+                        <span class="minutes js-minutes-output">00</span>
+                        <span class="seconds js-seconds-output">00</span>
                     </div>
                     <div class="task" data-status="started" data-selection-id="${taskId}">
                         <div class="task__header">
