@@ -110,15 +110,22 @@ export const taskService = (function (){
         }
     }
 
-    const startDoing = async function () {
+    const startDoing = async function (id = 0) {
+        console.log(id);
         const tasks = localStorageService.get('tasks') || await getTaskToday();
-        const _task = await tasks[0] || tasks.tasks[0];
+        const _tasks =await tasks.tasks || tasks;
+        const _task = _tasks.find(task => task.id === id) || _tasks[0];
+        console.log(_task)
+        localStorage.setItem('ondoing', JSON.stringify(_task.id));
 
         const htmls = template.task.started(_task);
         appContainer.innerHTML = htmls;
 
         const button = Button;
-        button.reset();
+        if (id == 0) {
+            button.reset();
+        }
+
         button.init('complete');
 
         timeService.start();

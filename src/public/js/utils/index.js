@@ -1,6 +1,6 @@
 export const utils = (() => {
     const setSelectionID = (task) => {
-        const taskID = task._id;
+        const taskID = task.id;
         const taskSelectionID = Date.parse(task.createdAt);
 
         const _task = document.querySelector(`.js-task[data-selection-id="${taskSelectionID}"]`);

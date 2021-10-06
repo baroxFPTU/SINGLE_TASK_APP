@@ -1,7 +1,7 @@
 const template = {
     task: {
         one(task) {
-            const taskId = task.id || task._id;
+            const taskId = task.id;
             return `<div class="task js-task" data-selection-id="${taskId}">
                         <div class="task__header">
                         <h3 class="task__name">${task.name}</h3>
@@ -17,7 +17,7 @@ const template = {
                     </div>`
         },
         started(task) {
-            const taskId = task.id || task._id;
+            const taskId = task.id;
 
             return `
                     <div class="timer">

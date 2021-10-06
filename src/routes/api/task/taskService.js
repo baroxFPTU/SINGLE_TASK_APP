@@ -11,7 +11,7 @@ export async function getTaskByDate (date) {
         });
 
         if (!_task) {throw Error}
-
+        
         return _task;
     } catch (error) {
         return null;

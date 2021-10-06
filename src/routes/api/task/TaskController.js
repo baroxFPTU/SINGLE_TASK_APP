@@ -13,7 +13,7 @@ export const taskController = (() => {
 
         try {
             task = await task.save();
-
+            
             res.json(task);
         } catch (error) {
             console.error(error);

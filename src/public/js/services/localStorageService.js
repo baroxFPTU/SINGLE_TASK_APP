@@ -19,26 +19,20 @@ export const localStorageService = (function () {
         localStorage.removeItem(name);
     }
 
-    const updateById = ({
-            nameItem,
-            id,
-            newData,
-        }) => {
+    const updateById = ({nameItem, id, newData}) => {
+        const _data = getItem(nameItem);
 
-            const _data = getItem(nameItem);
+        const _newData = _data.map(item => {
+            if (item.id == id || item._id == id) {
+                console.log(item);
+                return item = newData;
+            }
 
-            const _newData = _data.map(item => {
-                if (item.id == id || item._id == id) {
-                    console.log(item);
-                   return item = newData;
-                }
+            return item;
+        });
 
-                return item;
-            });
-
-            console.log( _newData)
-            clearItem(nameItem);
-            localStorage.setItem(nameItem, JSON.stringify( _newData));
+        clearItem(nameItem);
+        localStorage.setItem(nameItem, JSON.stringify( _newData));
     }
 
     return {

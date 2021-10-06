@@ -1,31 +1,37 @@
 const debug = console.log.bind(document);
 
 export const timeService = (function () {
-    const timeData = {
-        elapsed: 0
-    };
+        const timeData = {
+            elapsed: 0
+        };
     const startCount =  function () {
         const hoursOutput = document.querySelector('.js-hours-output');
         const minutesOutput = document.querySelector('.js-minutes-output');
         const secondsOutput = document.querySelector('.js-seconds-output');
         let hours, minutes, seconds;
 
-        timeData.start = Date.now();
+        timeData.start = parseInt(localStorage.getItem('start-time')) || Date.now();
+        localStorage.setItem('start-time', timeData.start);
+
         timeData.intervalId = setInterval(function () {
-            const elapsedTime = Date.now() - timeData.start + timeData.elapsed;
+            const currentTime = Date.now();
+            const elapsedTime = new Date(currentTime - timeData.start);
             
-            seconds = parseInt((elapsedTime / 1000) % 60);
+            seconds = elapsedTime.getUTCSeconds();
             secondsOutput.innerHTML = formatTime(seconds);
+            minutes = elapsedTime.getUTCMinutes();
+            minutesOutput.innerHTML = formatTime(minutes);
+            hours = elapsedTime.getUTCHours();
+            hoursOutput.innerHTML = formatTime(hours);
+            // if (seconds == 0) {
+            //     minutes = elapsedTime.getUTCMinutes();
+            //     minutesOutput.innerHTML = formatTime(minutes);
+            // }
 
-            if (seconds == 0) {
-                minutes = parseInt((elapsedTime / (1000 * 60)) % 60);
-                minutesOutput.innerHTML = formatTime(minutes);
-            }
-
-            if (minutes == 0) {
-                hours = parseInt((elapsedTime / (1000 * 60 * 60)) % 24);
-                hoursOutput.innerHTML = formatTime(hours);
-            }
+            // if (minutes == 0) {
+            //     hours = elapsedTime.getUTCHours();
+            //     hoursOutput.innerHTML = formatTime(hours);
+            // }
 
         }, 1000);
     }
@@ -34,7 +40,7 @@ export const timeService = (function () {
         timeData.elapsed += Date.now() - timeData.start;
 
         clearInterval(timeData.intervalId);
-
+        localStorage.removeItem('start-time');
         console.log(timeData.elapsed);
     }
     const formatTime = function (time, type) {
