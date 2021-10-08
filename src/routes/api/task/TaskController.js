@@ -27,12 +27,9 @@ export const taskController = (() => {
     const getTaskToday = async (req, res, next) => {
         try {
             const today = moment().startOf('day');
-
-            const _task = await getTaskByDate(today);
+            const _tasks = await getTaskByDate(today);
     
-            res.status(200).json({
-                tasks: _task
-            });
+            res.status(200).json(_tasks);
         } catch (error) {
             res.status(400).json({
                 message: error.message
@@ -43,24 +40,39 @@ export const taskController = (() => {
     const getByDate = async (req, res, next) => {
         try {
             const { date } = req.body;
-            const _task = await getTaskByDate(moment(date).startOf('day'));
+            const _tasks = await getTaskByDate(moment(date).startOf('day'));
 
-            if (!_task) throw new Error('Task not found.');
+            if (!_tasks) throw new Error('Task not found.');
 
-            res.status(200).json({
-                tasks: _task
-            });
+            res.status(200).json(_tasks);
         } catch (error) {
             res.status(400).json({
                 message: error.message
             })
         }
+    }
 
+    const completed = async (req, res, next) => {
+        try {
+            const {id, timeData} = req.body;
+            let task = await Task.findById(id);
+            task.startedAt = timeData.start;
+            task.completedAt = timeData.complete;
+            task.isCompleted = true;
+            
+            task = await task.save();
+            console.log(task);
+    
+            res.json(task);
+        } catch (error) {
+            console.log(error);
+        }
     }
  
     return {
         create,
         getTaskToday,
-        getByDate
+        getByDate,
+        completed
     }
 })();

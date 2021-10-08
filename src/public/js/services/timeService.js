@@ -1,70 +1,65 @@
 const debug = console.log.bind(document);
+import { hoursOutputClass, minutesOutputClass, secondsOutputClass, NAME_ONDOING_LOCAL} from '../constants/index.js';
 
 export const timeService = (function () {
-        const timeData = {
-            elapsed: 0
-        };
+    let _hours, _minutes, _seconds;
+    const timeData = {
+        elapsed: 0
+    };
+
     const startCount =  function () {
-        const hoursOutput = document.querySelector('.js-hours-output');
-        const minutesOutput = document.querySelector('.js-minutes-output');
-        const secondsOutput = document.querySelector('.js-seconds-output');
-        let hours, minutes, seconds;
+        const hoursOutput = document.querySelector(hoursOutputClass);
+        const minutesOutput = document.querySelector(minutesOutputClass);
+        const secondsOutput = document.querySelector(secondsOutputClass);
 
         timeData.start = parseInt(localStorage.getItem('start-time')) || Date.now();
         localStorage.setItem('start-time', timeData.start);
 
-        timeData.intervalId = setInterval(function () {
-            const currentTime = Date.now();
-            const elapsedTime = new Date(currentTime - timeData.start);
-            
-            seconds = elapsedTime.getUTCSeconds();
-            secondsOutput.innerHTML = formatTime(seconds);
-            minutes = elapsedTime.getUTCMinutes();
-            minutesOutput.innerHTML = formatTime(minutes);
-            hours = elapsedTime.getUTCHours();
-            hoursOutput.innerHTML = formatTime(hours);
-            // if (seconds == 0) {
-            //     minutes = elapsedTime.getUTCMinutes();
-            //     minutesOutput.innerHTML = formatTime(minutes);
-            // }
-
-            // if (minutes == 0) {
-            //     hours = elapsedTime.getUTCHours();
-            //     hoursOutput.innerHTML = formatTime(hours);
-            // }
-
-        }, 1000);
+        timeData.intervalId = setInterval(ticking.bind(this, hoursOutput, minutesOutput, secondsOutput), 1000);
     }
     
-    const stopCount = function () {
-        timeData.elapsed += Date.now() - timeData.start;
+    const ticking = (hoursOutput, minutesOutput, secondsOutput) => {
+        let hours, minutes, seconds;
+        const currentTime = Date.now();
+        const elapsedTime = new Date(currentTime - timeData.start);
+        
+        hours = elapsedTime.getUTCHours();
+        minutes = elapsedTime.getUTCMinutes();
+        seconds = elapsedTime.getUTCSeconds();
+        
+        _seconds = seconds;
+        secondsOutput.innerHTML = formatTime(seconds);
 
+        if (minutes !== _minutes) {
+            _minutes = minutes;
+            minutesOutput.innerHTML = formatTime(minutes);
+        }
+
+        if (hours !== _hours) {
+            _hours = hours;
+            hoursOutput.innerHTML = formatTime(hours);
+        }
+    }
+
+    const stopCount = () => {
+        timeData.complete = Date.now();
+        timeData.elapsed += Date.now() - timeData.start;
+        console.log(timeData);
+        
         clearInterval(timeData.intervalId);
         localStorage.removeItem('start-time');
-        console.log(timeData.elapsed);
+        localStorage.removeItem(NAME_ONDOING_LOCAL);
+        
     }
-    const formatTime = function (time, type) {
+    const formatTime = (time, type) => {
       return time < 10 ? `0${time}` : time
     }
 
-    const displayTime = function (hours, minutes, seconds) {
-        const hoursOutput = document.querySelector('.js-hours-output');
-        const minutesOutput = document.querySelector('.js-minutes-output');
-        const secondsOutput = document.querySelector('.js-seconds-output');
-
-        const leadZeroTime = [hours, minutes, seconds].map(time => time < 10 ? `0${time}` : time);
-        
-        if (!leadZeroTime.includes(null)) {
-            [hours, minutes, seconds] = leadZeroTime;
-
-            secondsOutput.innerHTML = seconds;
-            minutesOutput.innerHTML = minutes;
-            hoursOutput.innerHTML = hours;
-        }
-        }
+    const getTimeData = () => timeData;
 
     return {
-    start: startCount,
-    stop: stopCount,
+        start: startCount,
+        stop: stopCount,
+        getTimeData
     }
 }());

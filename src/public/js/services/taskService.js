@@ -111,21 +111,17 @@ export const taskService = (function (){
     }
 
     const startDoing = async function (id = 0) {
-        console.log(id);
-        const tasks = localStorageService.get('tasks') || await getTaskToday();
-        const _tasks =await tasks.tasks || tasks;
+        const _tasks = localStorageService.get('tasks') || await getTaskToday();
+        // const _tasks = await tasks.tasks || tasks;
         const _task = _tasks.find(task => task.id === id) || _tasks[0];
-        console.log(_task)
+        const htmls = template.task.started(_task);
+        const button = Button;
+        
         localStorage.setItem('ondoing', JSON.stringify(_task.id));
 
-        const htmls = template.task.started(_task);
         appContainer.innerHTML = htmls;
 
-        const button = Button;
-        if (id == 0) {
-            button.reset();
-        }
-
+        if (id == 0) button.reset();
         button.init('complete');
 
         timeService.start();
@@ -133,10 +129,31 @@ export const taskService = (function (){
 
     const complete = async function () {
         const taskID = document.querySelector('.task').getAttribute('data-selection-id');
-        console.log('complete');
-        console.log(taskID);
+        const timeData = timeService.getTimeData();
+
         timeService.stop();
-        // alert('complete' + timeService.elapsedTime());
+        fetchComplete(taskID, timeData);
+    }
+
+    const fetchComplete = async function (id, timeData) {
+        const data = {
+            id: id,
+            timeData: timeData,
+        }
+        
+        try {
+            const response = await fetch(`${API_URL}/task/completed`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            });
+
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return {
