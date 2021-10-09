@@ -1,5 +1,5 @@
 export const localStorageService = (function () {
-    const saveItem = (name,data) => {
+    const pushItem = (name,data) => {
         const exitData = getItem(name);
 
         if (exitData instanceof Array) {
@@ -24,7 +24,6 @@ export const localStorageService = (function () {
 
         const _newData = _data.map(item => {
             if (item.id == id || item._id == id) {
-                console.log(item);
                 return item = newData;
             }
 
@@ -35,8 +34,13 @@ export const localStorageService = (function () {
         localStorage.setItem(nameItem, JSON.stringify( _newData));
     }
 
+    const setItem = (name, data) => {
+        localStorage.setItem(name, JSON.stringify(data));
+    }
+
     return {
-        save: saveItem,
+        push: pushItem,
+        set: setItem,
         get: getItem,
         clear: clearItem,
         updateById,

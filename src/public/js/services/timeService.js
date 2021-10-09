@@ -1,5 +1,13 @@
 const debug = console.log.bind(document);
-import { hoursOutputClass, minutesOutputClass, secondsOutputClass, NAME_ONDOING_LOCAL} from '../constants/index.js';
+import * as constants from '../constants/index.js';
+
+const {
+    hoursOutputClass,
+    minutesOutputClass,
+    secondsOutputClass,
+    NAME_ONDOING_LOCAL,
+    NAME_START_TIME_LOCAL,
+} = constants;
 
 export const timeService = (function () {
     let _hours, _minutes, _seconds;
@@ -12,8 +20,8 @@ export const timeService = (function () {
         const minutesOutput = document.querySelector(minutesOutputClass);
         const secondsOutput = document.querySelector(secondsOutputClass);
 
-        timeData.start = parseInt(localStorage.getItem('start-time')) || Date.now();
-        localStorage.setItem('start-time', timeData.start);
+        timeData.start = parseInt(localStorage.getItem(NAME_START_TIME_LOCAL)) || Date.now();
+        localStorage.setItem(NAME_START_TIME_LOCAL, timeData.start);
 
         timeData.intervalId = setInterval(ticking.bind(this, hoursOutput, minutesOutput, secondsOutput), 1000);
     }
@@ -47,7 +55,7 @@ export const timeService = (function () {
         console.log(timeData);
         
         clearInterval(timeData.intervalId);
-        localStorage.removeItem('start-time');
+        localStorage.removeItem(NAME_START_TIME_LOCAL);
         localStorage.removeItem(NAME_ONDOING_LOCAL);
         
     }

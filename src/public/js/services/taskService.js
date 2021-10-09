@@ -3,7 +3,17 @@ import { Button } from '../components/button.js';
 import { utils } from '../utils/index.js';
 import { localStorageService } from './localStorageService.js';
 import { timeService } from './timeService.js';
-import { appContainer, taskContainer, blankTaskClassName, TASK_LIMIT, NAME_ARRAY_LOCAL, API_URL} from '../constants/index.js';
+import * as constants from '../constants/index.js';
+
+const {
+    appContainer,
+    taskContainer,
+    blankTaskClassName,
+    TASK_LIMIT, NAME_ARRAY_LOCAL,
+    API_URL,
+    NAME_ONDOING_LOCAL,
+    COMPLETED_KEY_OBJECT
+} = constants;
 
 export const taskService = (function (){
     let countTask = 0;
@@ -18,32 +28,34 @@ export const taskService = (function (){
             name: task.name,
             createdAt: task.createdAt,
         }
-        
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        }
+
         try {
-            const response = await fetch(`${API_URL}/task/new`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-            });
+            const response = await fetch(`${API_URL}/task/new`, options);
 
             return response;
         } catch (error) {
             console.log(error);
         }
-
     }
 
     const removeBlankTask = ()=> {
         const blankTaskElm = document.querySelector(blankTaskClassName);
-        if (blankTaskElm) blankTaskElm.remove(); 
+        if (blankTaskElm) return blankTaskElm.remove(); 
     }
 
     const renderTask = (task) => {
-        const htmls = template.task.one(task);
-
+        if (task[COMPLETED_KEY_OBJECT]) return;
+        
         removeBlankTask();
+        
+        const htmls = template.task.one(task);
         taskContainer.insertAdjacentHTML('beforeend', htmls);
 
         if (utils.hasClass(taskContainer, 'is-blank')) {
@@ -55,24 +67,30 @@ export const taskService = (function (){
 
     const handleNewTask = async function(input) {
         const startButton = Button;
-        const taskStorage = localStorageService.get(NAME_ARRAY_LOCAL) || 0;
+        const listTask = localStorageService.get(NAME_ARRAY_LOCAL) || 0;
+        const isLimitTask = (countTask > TASK_LIMIT) || (listTask.length > TASK_LIMIT - 1);
         const task = {
             id: Date.now(),
             name: input.value.trim(),
             createdAt: Date.now(),
         }
-
         countTask++;
-        if (countTask > TASK_LIMIT || taskStorage.length > TASK_LIMIT - 1) { return console.log('Enough! stop.') }
+        
+        if (isLimitTask) { 
+            return console.log('Enough! stop.');
+        }
 
-        input.value = ''; 
         if (task.name == '') return;
-    
-        localStorageService.save('tasks', task);
-        renderTask(task);
+        
+        input.value = ''; 
         
         startButton.init('start');
+        localStorageService.push(NAME_ARRAY_LOCAL, task);
+        renderTask(task);
+        exchangeID(task);
+    }
 
+    const exchangeID = async function (task) {
         try {
             let response = await fetchTask(task);
             const oldID = task.id;
@@ -93,16 +111,17 @@ export const taskService = (function (){
     }
 
     const getTaskToday = async function () {
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        };
+
         try {
-            const response = await fetch(`${API_URL}/task/today`,{
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
+            const response = await fetch(`${API_URL}/task/today`, options);
 
             if (response.status !== 200) { throw new Error}
-
             return response.json();
         } catch (error) {
             console.log(error);
@@ -111,13 +130,12 @@ export const taskService = (function (){
     }
 
     const startDoing = async function (id = 0) {
-        const _tasks = localStorageService.get('tasks') || await getTaskToday();
-        // const _tasks = await tasks.tasks || tasks;
-        const _task = _tasks.find(task => task.id === id) || _tasks[0];
+        const _tasks = localStorageService.get(NAME_ARRAY_LOCAL) || await getTaskToday();
+        const _task = _tasks.find(task => task.id === id) || _tasks.find(task => !task[COMPLETED_KEY_OBJECT]);
         const htmls = template.task.started(_task);
         const button = Button;
         
-        localStorage.setItem('ondoing', JSON.stringify(_task.id));
+        localStorage.setItem(NAME_ONDOING_LOCAL, JSON.stringify(_task.id));
 
         appContainer.innerHTML = htmls;
 
@@ -132,7 +150,17 @@ export const taskService = (function (){
         const timeData = timeService.getTimeData();
 
         timeService.stop();
+        updateCompleted(taskID);
         fetchComplete(taskID, timeData);
+    }
+
+    const updateCompleted = async (taskID) => {
+        const listTask = localStorageService.get(NAME_ARRAY_LOCAL) || await getTaskToday();
+
+        listTask.forEach(task => {
+            if (task.id === taskID) return task[COMPLETED_KEY_OBJECT] = true;
+        });
+        localStorageService.set(NAME_ARRAY_LOCAL, listTask);
     }
 
     const fetchComplete = async function (id, timeData) {
@@ -140,16 +168,16 @@ export const taskService = (function (){
             id: id,
             timeData: timeData,
         }
-        
-        try {
-            const response = await fetch(`${API_URL}/task/completed`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-            });
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        }
 
+        try {
+            const response = await fetch(`${API_URL}/task/completed`, options);
             return response;
         } catch (error) {
             console.log(error);
