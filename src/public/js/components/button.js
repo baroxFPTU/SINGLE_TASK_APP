@@ -50,7 +50,7 @@ export const Button = (function () {
         },
         reset() {
             isEnabled = false;
-            document.querySelector(`.${template.button.startClass}`).parentElement.remove();
+            document.querySelector(`.${template.button.startClass}`)?.parentElement.remove();
             document.querySelector(`.${template.button.completeClass}`)?.parentElement.remove();
         },
         checkEnabled() {

@@ -1,6 +1,15 @@
 const template = {
     task: {
-        one(task) {
+        empty () {
+            return `<div class="tasks__blank col js-blank-task">
+                        <img src="/images/illustration_empty.svg" alt="Nothing here" />
+                            <p class="tasks__imply">
+                                Chào buổi sáng. Hãy bắt đầu ngày mới với 5 nhiệm vụ quan trọng nhất.
+                            </p>
+                        <a href="#" class="tasks__link">Tại sao chỉ với 5?</a>
+                </div>`
+        },
+        one (task) {
             const taskId = task.id;
             return `<div class="task js-task" data-selection-id="${taskId}">
                         <div class="task__header">
@@ -56,6 +65,19 @@ const template = {
                          <button class="btn btn-primary ${this.completeClass}">Hoàn thành</button>
                      </div> `
         }
+    },
+    dropdown () {
+        return `
+        <ul>
+          <li>
+          <li></li>
+            <a href="#"><i class="ri-pencil-fill"></i> Chỉnh sửa</a>
+          </li>
+          <li>
+            <a href="#"><i class="ri-delete-bin-5-line"></i> Xóa</a>
+          </li>
+        </ul>
+        `
     }
 };
 

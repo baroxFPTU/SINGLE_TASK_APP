@@ -6,6 +6,7 @@ import { timeService } from './timeService.js';
 import * as constants from '../constants/index.js';
 
 const {
+    input,
     appContainer,
     taskContainer,
     blankTaskClassName,
@@ -65,6 +66,15 @@ export const taskService = (function (){
         };
     }
 
+    const renderEmptyTask = () => {
+        const htmls = template.task.empty();
+
+        taskContainer.innerHTML = htmls;
+        taskContainer.classList.add('is-blank');
+        taskContainer.classList.remove('has-task');
+        appContainer.classList?.remove('has-task');
+    }
+
     const handleNewTask = async function(input) {
         const startButton = Button;
         const listTask = localStorageService.get(NAME_ARRAY_LOCAL) || 0;
@@ -74,10 +84,13 @@ export const taskService = (function (){
             name: input.value.trim(),
             createdAt: Date.now(),
         }
+
         countTask++;
-        
         if (isLimitTask) { 
-            return console.log('Enough! stop.');
+            console.log('Enough! stop.');
+            console.log(countTask);
+            input.value = '';
+            return  alert('You have reached the limit task of today.');
         }
 
         if (task.name == '') return;
@@ -132,12 +145,24 @@ export const taskService = (function (){
     const startDoing = async function (id = 0) {
         const _tasks = localStorageService.get(NAME_ARRAY_LOCAL) || await getTaskToday();
         const _task = _tasks.find(task => task.id === id) || _tasks.find(task => !task[COMPLETED_KEY_OBJECT]);
-        const htmls = template.task.started(_task);
         const button = Button;
-        
-        localStorage.setItem(NAME_ONDOING_LOCAL, JSON.stringify(_task.id));
 
-        appContainer.innerHTML = htmls;
+        if (!_task) {
+           button.reset();
+           [input.parentElement, taskContainer].forEach(elm => {
+                elm.removeAttribute('style');
+           });
+
+           renderEmptyTask();
+           return;
+        };
+
+        const htmls = template.task.started(_task);
+
+        localStorage.setItem(NAME_ONDOING_LOCAL, JSON.stringify(_task.id));
+        input.parentElement.style.display = 'none';
+        taskContainer.style.height = '100%';
+        taskContainer.innerHTML = htmls;
 
         if (id == 0) button.reset();
         button.init('complete');
@@ -149,9 +174,13 @@ export const taskService = (function (){
         const taskID = document.querySelector('.task').getAttribute('data-selection-id');
         const timeData = timeService.getTimeData();
 
+        const isCompleted = window.confirm('Are you sure you want to complete this task? \nYou will immediately come to the next task.');
+        if (!isCompleted) return;
+
         timeService.stop();
         updateCompleted(taskID);
         fetchComplete(taskID, timeData);
+        startDoing();
     }
 
     const updateCompleted = async (taskID) => {
@@ -184,12 +213,19 @@ export const taskService = (function (){
         }
     }
 
+    
+    const isCompletedAll = (listTask) => {
+        const filterdList = listTask.filter(task => !task[COMPLETED_KEY_OBJECT]);
+        return (filterdList.length == 0) ? true : false;
+    }
+
     return {
         fetch: fetchTask,
         create: handleNewTask,
         render: renderTask,
         getTaskToday,
         startDoing,
-        complete
+        complete,
+        isCompletedAll
     }
 }());

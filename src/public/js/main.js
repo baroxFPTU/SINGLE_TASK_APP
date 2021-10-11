@@ -32,7 +32,7 @@ const app =(function (){
         taskService.render(task);
       });
 
-      startButton.init('start');
+      (!taskService.isCompletedAll(_tasks)) ? startButton.init('start') : startButton.reset();
     }
   }
 
