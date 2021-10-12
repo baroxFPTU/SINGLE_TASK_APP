@@ -10,6 +10,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  .task__options.expanded {
+    opacity: 1 !important;
+  }
   &:hover {
     // background-color: var(--light-gray);
     .task__options {
@@ -34,7 +37,6 @@
   &__footer {
     margin-top: auto;
     display: flex;
-    justify-content: space-between;
     align-items: flex-end;
   }
   &__timestamp-create {
@@ -44,6 +46,20 @@
 
   &:last-child {
     margin-bottom: 50px;
+  }
+}
+
+.task.edited {
+  border-radius: 10px;
+  border: 1px solid #000;
+
+  .task__header {
+    margin-bottom: 50px;
+  }
+  .task__timestamp-create,
+  .task__name,
+  .task__options {
+    display: none;
   }
 }
 

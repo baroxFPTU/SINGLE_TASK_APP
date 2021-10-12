@@ -16,7 +16,8 @@
   align-items: center;
   transition: all 0.2s ease-in-out;
   padding: 5px;
-  &:hover {
+  &:hover,
+  &.active {
     background-color: var(--btn-round-hover);
     i {
       color: var(--btn-icon-hover-color);

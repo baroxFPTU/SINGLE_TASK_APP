@@ -15,7 +15,7 @@ const template = {
                         <div class="task__header">
                         <h3 class="task__name">${task.name}</h3>
                         <div class="task__options">
-                            <button class="btn btn-round">
+                            <button class="btn btn-round js-btn-option">
                             <i class="ri-more-line"></i>
                             </button>
                         </div>
@@ -38,12 +38,10 @@ const template = {
                         <div class="task__header">
                         <h3 class="task__name">${task.name}</h3>
                          <div class="task__options">
-                            <button class="btn btn-round">
+                            <button class="btn btn-round js-btn-option">
                                 <i class="ri-more-line"></i>
                             </button>
-                        <div class="dropdown">
-                        
-                        </div>
+                            
                         </div>
                     </div>
                     <div class="task__footer">
@@ -68,15 +66,16 @@ const template = {
     },
     dropdown () {
         return `
+        <div class="dropdown js-dropdown">
         <ul>
-          <li>
-          <li></li>
-            <a href="#"><i class="ri-pencil-fill"></i> Chỉnh sửa</a>
-          </li>
-          <li>
-            <a href="#"><i class="ri-delete-bin-5-line"></i> Xóa</a>
-          </li>
-        </ul>
+        <li>
+          <a href="#"><i class="ri-pencil-fill"></i> Chỉnh sửa</a>
+        </li>
+        <li>
+          <a href="#"><i class="ri-delete-bin-5-line"></i> Xóa</a>
+        </li>
+      </ul> 
+        </div>
         `
     }
 };
