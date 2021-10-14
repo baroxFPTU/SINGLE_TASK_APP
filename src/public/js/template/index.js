@@ -1,3 +1,5 @@
+import { taskService } from "../services/taskService.js";
+
 const template = {
     task: {
         empty () {
@@ -50,19 +52,26 @@ const template = {
                         <img src="/images/illustration_ondoing.svg" alt="" class="task__img">`
         }
     },
-    button: {
-        startClass: 'js-start-button',
-        completeClass: 'js-complete-button',
-        start() {
-            return ` <div class="btn-fixed">
-                         <button class="btn btn-primary ${this.startClass}">Bắt đầu</button>
-                     </div> `
-        },
-        complete() {
-            return ` <div class="btn-fixed">
-                         <button class="btn btn-primary ${this.completeClass}">Hoàn thành</button>
-                     </div> `
-        }
+    button (type) {
+        const buttons = {
+            start: {
+                className: 'js-start-button',
+                textContent: 'Bắt đầu',
+                listener: taskService.startDoing
+            },
+            complete: {
+                className: 'js-complete-button',
+                textContent: 'Hoàn thành',
+                listener: taskService.complete
+            }
+        };
+
+        const _button = document.createElement('button');
+        _button.setAttribute('class', `btn btn-primary ${buttons[type].className}`);
+        _button.textContent = buttons[type].textContent;
+        _button.addEventListener('click', buttons[type].listener);
+
+        return _button; 
     },
     dropdown () {
         return `

@@ -143,12 +143,13 @@ export const taskService = (function (){
     }
 
     const startDoing = async function (id = 0) {
-        const _tasks = localStorageService.get(NAME_ARRAY_LOCAL) || await getTaskToday();
-        const _task = _tasks.find(task => task.id === id) || _tasks.find(task => !task[COMPLETED_KEY_OBJECT]);
+        const _tasks = localStorageService.get(NAME_ARRAY_LOCAL) ?? await getTaskToday();
+        const _task = _tasks.find(task => task.id === id) ?? _tasks.find(task => !task[COMPLETED_KEY_OBJECT]);
         const button = Button;
 
+        // Render default view when do not have any task.
         if (!_task) {
-           button.reset();
+           button.removeAll();
            [input.parentElement, taskContainer].forEach(elm => {
                 elm.removeAttribute('style');
            });
@@ -164,7 +165,6 @@ export const taskService = (function (){
         taskContainer.style.height = '100%';
         taskContainer.innerHTML = htmls;
 
-        if (id == 0) button.reset();
         button.init('complete');
 
         timeService.start();

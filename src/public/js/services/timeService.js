@@ -15,7 +15,7 @@ export const timeService = (function () {
         elapsed: 0
     };
 
-    const startCount =  function () {
+    const startCount = function () {
         const hoursOutput = document.querySelector(hoursOutputClass);
         const minutesOutput = document.querySelector(minutesOutputClass);
         const secondsOutput = document.querySelector(secondsOutputClass);
@@ -52,8 +52,6 @@ export const timeService = (function () {
     const stopCount = () => {
         timeData.complete = Date.now();
         timeData.elapsed += Date.now() - timeData.start;
-        console.log(timeData);
-        
         clearInterval(timeData.intervalId);
         localStorage.removeItem(NAME_START_TIME_LOCAL);
         localStorage.removeItem(NAME_ONDOING_LOCAL);

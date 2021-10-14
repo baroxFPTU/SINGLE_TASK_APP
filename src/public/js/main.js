@@ -1,4 +1,5 @@
 import { template } from './template/index.js';
+import { Dropdown } from './components/dropdown.js';
 import { taskService } from './services/taskService.js';
 import { localStorageService } from './services/localStorageService.js';
 import { Button } from './components/button.js';
@@ -31,32 +32,35 @@ const app =(function (){
       const dropdown = e.target.closest('.js-dropdown');
 
       if (optionButton) {
+        const parent = optionButton.parentElement;
+
         document.querySelector('.js-dropdown')?.remove();
         document.querySelector('.js-btn-option.active')?.classList.remove('active');
-        const parent = optionButton.parentElement;
-        const dropdownHTML = template.dropdown();
-        
+
         if (parent.querySelector('.js-dropdown')) {
-          document.querySelector('.js-dropdown').remove();
+          Dropdown.removeAll();
+
           optionButton.classList.remove('active');
           optionButton.parentElement.classList.remove('expanded');
-          return};
+          return
+        };
 
-        parent.insertAdjacentHTML('beforeend', dropdownHTML);
+        Dropdown.create({
+          parent: parent,
+        });
         parent.classList.add('expanded');
         optionButton.classList.add('active');
       }
 
       if (dropdown || optionButton) {
         return;
-      } else {
-        const optionButton = document.querySelector('.js-btn-option.active');
+      } 
 
-        document.querySelector('.js-dropdown')?.remove();
-        optionButton?.classList.remove('active');
-        optionButton?.parentElement.classList.remove('expanded');
-      }
+        const activeButton = document.querySelector('.js-btn-option.active');
 
+        Dropdown.removeAll();
+        activeButton?.classList.remove('active');
+        activeButton?.parentElement.classList.remove('expanded');
     })
   }
 
