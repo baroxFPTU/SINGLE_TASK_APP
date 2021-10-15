@@ -1,19 +1,19 @@
-import { taskService } from "../services/taskService.js";
+import * as taskHander from "../handlers/task/index.js";
 
 const template = {
-    task: {
-        empty () {
-            return `<div class="tasks__blank col js-blank-task">
+  task: {
+    empty() {
+      return `<div class="tasks__blank col js-blank-task">
                         <img src="/images/illustration_empty.svg" alt="Nothing here" />
                             <p class="tasks__imply">
                                 Chào buổi sáng. Hãy bắt đầu ngày mới với 5 nhiệm vụ quan trọng nhất.
                             </p>
                         <a href="#" class="tasks__link">Tại sao chỉ với 5?</a>
-                </div>`
-        },
-        one (task) {
-            const taskId = task.id;
-            return `<div class="task js-task" data-selection-id="${taskId}">
+                </div>`;
+    },
+    one(task) {
+      const taskId = task.id;
+      return `<div class="task js-task" data-selection-id="${taskId}">
                         <div class="task__header">
                         <h3 class="task__name">${task.name}</h3>
                         <div class="task__options">
@@ -25,12 +25,12 @@ const template = {
                         <div class="task__footer">
                         <div class="task__timestamp-create">${task.createdAt}</div>
                         </div>
-                    </div>`
-        },
-        started(task) {
-            const taskId = task.id;
+                    </div>`;
+    },
+    started(task) {
+      const taskId = task.id;
 
-            return `
+      return `
                     <div class="timer">
                         <span class="hours js-hours-output">00</span>
                         <span class="minutes js-minutes-output">00</span>
@@ -49,32 +49,32 @@ const template = {
                     <div class="task__footer">
                         <div class="task__timestamp-create">${task.createdAt}</div>
                         </div>
-                        <img src="/images/illustration_ondoing.svg" alt="" class="task__img">`
-        }
+                        <img src="/images/illustration_ondoing.svg" alt="" class="task__img">`;
     },
-    button (type) {
-        const buttons = {
-            start: {
-                className: 'js-start-button',
-                textContent: 'Bắt đầu',
-                listener: taskService.startDoing
-            },
-            complete: {
-                className: 'js-complete-button',
-                textContent: 'Hoàn thành',
-                listener: taskService.complete
-            }
-        };
+  },
+  button(type) {
+    const buttons = {
+      start: {
+        className: "js-start-button",
+        textContent: "Bắt đầu",
+        listener: taskHander.start,
+      },
+      complete: {
+        className: "js-complete-button",
+        textContent: "Hoàn thành",
+        listener: taskHander.complete,
+      },
+    };
 
-        const _button = document.createElement('button');
-        _button.setAttribute('class', `btn btn-primary ${buttons[type].className}`);
-        _button.textContent = buttons[type].textContent;
-        _button.addEventListener('click', buttons[type].listener);
+    const _button = document.createElement("button");
+    _button.setAttribute("class", `btn btn-primary ${buttons[type].className}`);
+    _button.textContent = buttons[type].textContent;
+    _button.addEventListener("click", buttons[type].listener);
 
-        return _button; 
-    },
-    dropdown () {
-        return `
+    return _button;
+  },
+  dropdown() {
+    return `
         <div class="dropdown js-dropdown">
         <ul>
         <li>
@@ -85,11 +85,8 @@ const template = {
         </li>
       </ul> 
         </div>
-        `
-    }
+        `;
+  },
 };
 
-
-export {
-    template
-}
+export { template };
