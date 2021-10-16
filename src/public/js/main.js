@@ -1,10 +1,9 @@
-import { template } from "./template/index.js";
-import { Dropdown } from "./components/dropdown.js";
-import * as taskHander from "./handlers/task/index.js";
+import * as taskHander from "./handlers/taskHandler.js";
 import * as taskService from "./services/taskService.js";
-import { localStorageService } from "./services/localStorageService.js";
-import { Button } from "./components/button.js";
+import * as localStorageHandler from "./handlers/localStorageHandler.js";
 import * as constants from "./constants/index.js";
+import { Dropdown } from "./components/dropdown.js";
+import { Button } from "./components/button.js";
 
 const { input, addButton, NAME_ARRAY_LOCAL, NAME_ONDOING_LOCAL } = constants;
 
@@ -63,7 +62,7 @@ const app = (function () {
   };
 
   const handleDataOnLoad = async function () {
-    const _tasksFromLocal = localStorageService.get(NAME_ARRAY_LOCAL);
+    const _tasksFromLocal = localStorageHandler.get(NAME_ARRAY_LOCAL);
     const _tasksFromServer = await taskService.getTaskToday();
     const _tasks = _tasksFromLocal || _tasksFromServer;
 

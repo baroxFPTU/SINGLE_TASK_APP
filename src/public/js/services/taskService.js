@@ -1,5 +1,5 @@
 import { utils } from "../utils/index.js";
-import { localStorageService } from "./localStorageService.js";
+import * as localStorageHandler from "../handlers/localStorageHandler.js";
 import * as constants from "../constants/index.js";
 
 const { NAME_ARRAY_LOCAL, API_URL } = constants;
@@ -44,7 +44,7 @@ const exchangeID = async function (task) {
       const data = await response.json();
 
       utils.setSelectionID(data);
-      localStorageService.updateById({
+      localStorageHandler.updateById({
         nameItem: NAME_ARRAY_LOCAL,
         id: oldID,
         newData: data,

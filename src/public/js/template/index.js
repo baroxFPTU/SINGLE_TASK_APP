@@ -1,4 +1,4 @@
-import * as taskHander from "../handlers/task/index.js";
+import * as taskHandler from "../handlers/taskHandler.js";
 
 const template = {
   task: {
@@ -57,12 +57,12 @@ const template = {
       start: {
         className: "js-start-button",
         textContent: "Bắt đầu",
-        listener: taskHander.start,
+        listener: taskHandler.start,
       },
       complete: {
         className: "js-complete-button",
         textContent: "Hoàn thành",
-        listener: taskHander.complete,
+        listener: taskHandler.complete,
       },
     };
 
