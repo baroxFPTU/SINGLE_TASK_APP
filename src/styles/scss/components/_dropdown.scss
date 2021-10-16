@@ -11,11 +11,16 @@
   ul {
     list-style-type: none;
   }
-  a {
+  button {
+    background-color: transparent;
+    border: none;
+    outline: none;
     white-space: nowrap;
     padding: 5px 15px;
     display: inline-flex;
     align-items: center;
+    font-size: 18px;
+    line-height: 1.6;
     border-radius: 10px;
     color: var(--light-black);
     width: 100%;
@@ -23,7 +28,8 @@
       margin-right: 15px;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: var(--text-dropdown-hover-color);
       background: var(--link-dropdown-hover-color);
     }

@@ -1,13 +1,14 @@
-import express from 'express';
-import { taskController } from './TaskController.js';
+import express from "express";
+import { taskController } from "./TaskController.js";
 
 const router = express.Router();
 
-router.post('/new', taskController.create);
+router.post("/new", taskController.create);
 
-router.get('/today', taskController.getTaskToday);
-router.get('/by-date', taskController.getByDate);
+router.get("/today", taskController.getTaskToday);
+router.get("/by-date", taskController.getByDate);
 
-router.put('/completed', taskController.completed);
+router.put("/completed", taskController.completed);
 
+router.patch("/", taskController.update);
 export default router;

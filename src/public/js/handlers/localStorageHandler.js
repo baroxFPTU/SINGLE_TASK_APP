@@ -1,5 +1,5 @@
 export const push = function pushItem(name, data) {
-  const exitData = getItem(name);
+  const exitData = get(name);
 
   if (exitData instanceof Array) {
     exitData.push(data);
@@ -29,6 +29,21 @@ export const updateById = ({ nameItem, id, newData }) => {
   const _newData = _data.map((item) => {
     if (item.id == id || item._id == id) {
       return (item = newData);
+    }
+
+    return item;
+  });
+
+  clear(nameItem);
+  localStorage.setItem(nameItem, JSON.stringify(_newData));
+};
+
+export const updateByIdAndCallback = (nameItem, id, callback) => {
+  const _data = get(nameItem);
+
+  const _newData = _data.map((item) => {
+    if (item.id == id || item._id == id) {
+      return (item = callback(item));
     }
 
     return item;

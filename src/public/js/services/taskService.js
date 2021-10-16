@@ -107,4 +107,26 @@ const fetchComplete = async function (id, timeData) {
   }
 };
 
-export { fetchTaskData, getTaskToday, fetchComplete, exchangeID };
+const updateName = async function ({ id, newName }) {
+  const data = {
+    id: id,
+    name: newName,
+  };
+
+  const options = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response = await fetch(`${API_URL}/task/`, options);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { fetchTaskData, getTaskToday, fetchComplete, exchangeID, updateName };

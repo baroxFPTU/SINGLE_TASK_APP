@@ -25,6 +25,35 @@ const app = (function () {
       e.stopPropagation();
       const optionButton = e.target.closest(".js-btn-option");
       const dropdown = e.target.closest(".js-dropdown");
+      const editButton = e.target.closest(".js-edit-btn");
+      const deleteButton = e.target.closest(".js-delete-btn");
+
+      if (editButton) {
+        console.log("editing..");
+
+        const taskTarget = editButton.closest(".js-task");
+        const taskId = taskTarget?.getAttribute("data-selection-id");
+        const taskData = window.taskList.find((task) => task.id === taskId);
+        const input = document.createElement("input");
+        const button = document.createElement("button");
+        button.setAttribute("class", "js-submit-btn");
+        button.textContent = "Lưu";
+        input.setAttribute("type", "text");
+        input.value = taskData.name;
+        taskTarget.classList.add("editing");
+        taskTarget.appendChild(input);
+        taskTarget.appendChild(button);
+
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handlerEditTask(taskId, taskTarget, input.value, input, button);
+        });
+      }
+
+      if (deleteButton) {
+        console.log("delete...");
+      }
 
       if (optionButton) {
         const parent = optionButton.parentElement;
@@ -51,14 +80,43 @@ const app = (function () {
 
       if (dropdown || optionButton) {
         return;
+      } else {
+        const activeButton = document.querySelector(".js-btn-option.active");
+
+        Dropdown.removeAll();
+        activeButton?.classList.remove("active");
+        activeButton?.parentElement.classList.remove("expanded");
       }
-
-      const activeButton = document.querySelector(".js-btn-option.active");
-
-      Dropdown.removeAll();
-      activeButton?.classList.remove("active");
-      activeButton?.parentElement.classList.remove("expanded");
     });
+  };
+
+  const handlerEditTask = async function (id, target, newName, input, button) {
+    const taskNameElm = target.querySelector(".task__name");
+    taskNameElm.textContent = newName;
+    try {
+      const response = await taskService.updateName({
+        id,
+        newName,
+      });
+
+      if ((await response.status) == 200) {
+        localStorageHandler.updateByIdAndCallback(
+          NAME_ARRAY_LOCAL,
+          id,
+          (item) => {
+            item.name = newName;
+            return item;
+          }
+        );
+
+        target.classList.remove("editing");
+        input?.remove();
+        button?.remove();
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
 
   const handleDataOnLoad = async function () {
@@ -69,6 +127,7 @@ const app = (function () {
     if (_tasksFromLocal || (await _tasksFromServer)) {
       localStorage.setItem(NAME_ARRAY_LOCAL, JSON.stringify(_tasks));
 
+      window.taskList = _tasks;
       _tasks.forEach((task) => {
         taskHander.render(task);
       });

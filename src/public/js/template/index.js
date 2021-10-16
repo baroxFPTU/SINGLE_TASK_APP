@@ -78,10 +78,10 @@ const template = {
         <div class="dropdown js-dropdown">
         <ul>
         <li>
-          <a href="#"><i class="ri-pencil-fill"></i> Chỉnh sửa</a>
+          <button class="js-edit-btn"><i class="ri-pencil-fill"></i> Chỉnh sửa</button>
         </li>
         <li>
-          <a href="#"><i class="ri-delete-bin-5-line"></i> Xóa</a>
+          <button class="js-delete-btn"><i class="ri-delete-bin-5-line"></i> Xóa</button>
         </li>
       </ul> 
         </div>
