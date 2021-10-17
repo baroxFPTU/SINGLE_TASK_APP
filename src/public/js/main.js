@@ -35,19 +35,23 @@ const app = (function () {
         const taskId = taskTarget?.getAttribute("data-selection-id");
         const taskData = window.taskList.find((task) => task.id === taskId);
         const input = document.createElement("input");
-        const button = document.createElement("button");
-        button.setAttribute("class", "js-submit-btn");
-        button.textContent = "Lưu";
+        const saveButton = document.createElement("button");
+        saveButton.setAttribute(
+          "class",
+          "btn btn__actions btn__actions--save js-submit-btn"
+        );
+        saveButton.textContent = "Lưu";
         input.setAttribute("type", "text");
+        input.setAttribute("class", "edit-input js-edit-input");
         input.value = taskData.name;
         taskTarget.classList.add("editing");
         taskTarget.appendChild(input);
-        taskTarget.appendChild(button);
-
-        button.addEventListener("click", (e) => {
+        taskTarget.appendChild(saveButton);
+        input.focus();
+        saveButton.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
-          handlerEditTask(taskId, taskTarget, input.value, input, button);
+          handlerEditTask(taskId, taskTarget, input.value, input, saveButton);
         });
       }
 

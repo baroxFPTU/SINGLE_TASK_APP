@@ -31,6 +31,26 @@
     font-size: 2.3rem;
   }
 }
+.btn__actions {
+  min-width: 275px;
+  background-color: var(--light-gray);
+  padding: 15px 25px;
+  border-radius: 5px;
+  font-size: 17px;
+  &:hover {
+    background-color: var(--gray-border);
+  }
+}
+
+.btn__actions--save {
+  background-color: var(--btn-primary-color);
+  color: #fff;
+  &:hover,
+  &:focus {
+    background-color: var(--secondary);
+    opacity: 0.8;
+  }
+}
 
 .btn-primary {
   background-color: var(--btn-primary-color);

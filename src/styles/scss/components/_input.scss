@@ -9,12 +9,17 @@
   padding: var(--padding-input);
   border-radius: 15px;
   margin-bottom: 30px;
+
   input {
     margin-left: 10px;
     width: 100%;
     background-color: transparent;
     border: none;
     font-size: var(--input-font-size);
+    &:hover,
+    &:focus {
+      transform: scale(1.01);
+    }
   }
   .btn-round:hover {
     transform: scale(1.1);

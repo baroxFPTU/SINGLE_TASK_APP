@@ -51,15 +51,36 @@
 
 .task.editing {
   border-radius: 10px;
-  border: 1px solid #000;
-
-  .task__header {
-    margin-bottom: 50px;
+  .task__header,
+  .task__footer {
+    display: none;
   }
   .task__timestamp-create,
   .task__name,
   .task__options {
     display: none;
+  }
+
+  .edit-input {
+    padding: 15px;
+    border: none;
+    background-color: #fff;
+    border-bottom: 3px solid #f7f7f7;
+    margin-bottom: 15px;
+    font-size: inherit;
+    font-family: inherit;
+    position: relative;
+
+    &:hover,
+    &:focus,
+    &:active {
+      border-bottom-color: var(--btn-primary-color);
+      background-color: #f7f7f7;
+    }
+
+    &::placeholder {
+      font-family: inherit;
+    }
   }
 }
 

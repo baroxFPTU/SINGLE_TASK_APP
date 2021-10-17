@@ -1,7 +1,7 @@
 /* width */
 ::-webkit-scrollbar {
   transition: all 0.25 ease-in-out;
-  width: 8px;
+  width: 10px;
 }
 
 /* Track */
@@ -13,7 +13,6 @@
 ::-webkit-scrollbar-thumb {
   background: hsl(0, 0%, 80%);
   transition: all 0.25s ease-in-out;
-  border-radius: 20px;
 }
 
 /* Handle on hover */
