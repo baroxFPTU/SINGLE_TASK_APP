@@ -70,14 +70,28 @@ export const taskController = (() => {
   };
 
   const update = async (req, res, next) => {
-    console.log(req.body);
     const { id, name } = req.body;
-    console.log(id, name);
+
     try {
       await Task.updateOne({ _id: id }, { name: name });
       res.send(200);
     } catch (error) {
       console.log(error);
+      res.send(404);
+    }
+  };
+
+  const deleteOne = async (req, res, next) => {
+    const { id } = req.body;
+    try {
+      const action = await Task.deleteOne({ _id: id });
+
+      if (action) {
+        res.sendStatus(200);
+      }
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(404);
     }
   };
 
@@ -87,5 +101,6 @@ export const taskController = (() => {
     getByDate,
     completed,
     update,
+    deleteOne,
   };
 })();

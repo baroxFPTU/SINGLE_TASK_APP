@@ -10,5 +10,7 @@ router.get("/by-date", taskController.getByDate);
 
 router.put("/completed", taskController.completed);
 
+router.delete("/delete", taskController.deleteOne);
+
 router.patch("/", taskController.update);
 export default router;

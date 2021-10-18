@@ -23,12 +23,12 @@ export const listen = function () {
   document.addEventListener("click", async function (e) {
     const editButton = e.target.closest(".js-edit-btn");
     const deleteButton = e.target.closest(".js-delete-btn");
+    const taskTarget = e.target?.closest(".js-task");
+    const taskId = taskTarget?.getAttribute("data-selection-id");
     e.stopPropagation();
 
     if (editButton) {
       console.log("editing..");
-      const taskTarget = editButton.closest(".js-task");
-      const taskId = taskTarget.getAttribute("data-selection-id");
       const taskList =
         localStorageHandler.get(NAME_ARRAY_LOCAL) ??
         (await taskHandler.getTaskToday());
@@ -38,9 +38,18 @@ export const listen = function () {
     }
 
     if (deleteButton) {
+      const taskList =
+        localStorageHandler.get(NAME_ARRAY_LOCAL) ??
+        (await taskHandler.getTaskToday());
+      const newTaskList = taskList.filter((task) => task.id !== taskId);
+      localStorageHandler.set(NAME_ARRAY_LOCAL, newTaskList);
       console.log("delete...");
-    }
+      taskTarget.remove();
 
+      const response = await taskService.deleteOne(taskId);
+      if (response.status === 200) {
+      }
+    }
     dropdownHandler.handle(e.target);
   });
 };

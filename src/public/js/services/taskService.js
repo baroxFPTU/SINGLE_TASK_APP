@@ -129,4 +129,32 @@ const updateName = async function ({ id, newName }) {
   }
 };
 
-export { fetchTaskData, getTaskToday, fetchComplete, exchangeID, updateName };
+const deleteOne = async function (id) {
+  const data = {
+    id: id,
+  };
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response = await fetch(`${API_URL}/task/delete/`, options);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export {
+  fetchTaskData,
+  getTaskToday,
+  fetchComplete,
+  exchangeID,
+  updateName,
+  deleteOne,
+};
