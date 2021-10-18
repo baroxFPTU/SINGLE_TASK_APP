@@ -36,7 +36,7 @@ const template = {
                         <span class="minutes js-minutes-output">00</span>
                         <span class="seconds js-seconds-output">00</span>
                     </div>
-                    <div class="task" data-status="started" data-selection-id="${taskId}">
+                    <div class="task js-task" data-status="started" data-selection-id="${taskId}">
                         <div class="task__header">
                         <h3 class="task__name">${task.name}</h3>
                          <div class="task__options">

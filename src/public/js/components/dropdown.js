@@ -1,29 +1,51 @@
-import { template } from '../template/index.js';
+import { template } from "../template/index.js";
 
 export const Dropdown = (function () {
-    const events = {
-        edit () {
-            console.log('edit');
-        },
-        delete () {
-            console.log('delete');
-        }
-    }
+  let _container, _btn;
+  const events = {
+    edit() {
+      console.log("edit");
+    },
+    delete() {
+      console.log("delete");
+    },
+  };
 
-    return {
-        create ({parent}) {
-         const htmls = template.dropdown();
-         const dropdownDOM = document.createRange().createContextualFragment(htmls);
-
-         parent.appendChild(dropdownDOM);
-        },
-        removeAll () {
-            const listItem = document.querySelectorAll('.js-dropdown');
-            listItem.forEach(item => {
-                item?.remove();
-            })
-        }
-    }
+  return {
+    create(container, btn) {
+      _container = container;
+      _btn = btn;
+      const htmls = template.dropdown();
+      const dropdownDOM = document
+        .createRange()
+        .createContextualFragment(htmls);
+      container.appendChild(dropdownDOM);
+      this.switchContainerState(container, btn);
+    },
+    removeAll() {
+      const listItem = document.querySelectorAll(".js-dropdown");
+      listItem.forEach((item) => {
+        item?.remove();
+      });
+    },
+    switchContainerState(container = _container, btn = _btn) {
+      const isExpanded = !container.classList.contains("expanded");
+      console.log(isExpanded);
+      btn?.classList.toggle("active", isExpanded);
+      container?.classList.toggle("expanded", isExpanded);
+    },
+    resetContainerState(container = _container, btn = _btn) {
+      btn?.classList.remove("active");
+      container?.classList.remove("expanded");
+    },
+    isShowing() {
+      const dropdown = document.querySelector(".js-dropdown");
+      return dropdown ? true : false;
+    },
+    isMe(target) {
+      return target.classList.contains("js-dropdown") ? true : false;
+    },
+  };
 })();
 
 // document.addEventListener('click', function (e) {
@@ -52,7 +74,7 @@ export const Dropdown = (function () {
 
 //     if (dropdown || optionButton) {
 //       return;
-//     } 
+//     }
 
 //       const activeButton = document.querySelector('.js-btn-option.active');
 

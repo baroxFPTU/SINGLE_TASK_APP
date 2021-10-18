@@ -1,21 +1,52 @@
 import * as constants from "../constants/index.js";
+import { Dropdown } from "../components/dropdown.js";
+import * as taskHandler from "./taskHandler.js";
+import * as taskService from "../services/taskService.js";
+import * as localStorageHandler from "./localStorageHandler.js";
+import * as dropdownHandler from "./dropdownHandler.js";
+
 const { input, addButton, NAME_ARRAY_LOCAL, NAME_ONDOING_LOCAL } = constants;
 
-if (input) {
-  addButton.addEventListener("click", function () {
-    taskHander.create(input);
-  });
+export const listen = function () {
+  if (input) {
+    addButton.addEventListener("click", function () {
+      taskHandler.create(input);
+    });
 
-  input.addEventListener("keypress", function (e) {
-    if (e.key === "Enter") {
-      taskHander.create(input);
+    input.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        taskHandler.create(input);
+      }
+    });
+  }
+
+  document.addEventListener("click", async function (e) {
+    const editButton = e.target.closest(".js-edit-btn");
+    const deleteButton = e.target.closest(".js-delete-btn");
+    e.stopPropagation();
+
+    if (editButton) {
+      console.log("editing..");
+      const taskTarget = editButton.closest(".js-task");
+      const taskId = taskTarget.getAttribute("data-selection-id");
+      const taskList =
+        localStorageHandler.get(NAME_ARRAY_LOCAL) ??
+        (await taskHandler.getTaskToday());
+      const taskData = taskList.find((task) => task.id === taskId);
+
+      createEditFrom(taskData, taskTarget);
     }
+
+    if (deleteButton) {
+      console.log("delete...");
+    }
+
+    dropdownHandler.handle(e.target);
   });
-}
+};
 
 const createEditFrom = function (taskData, taskTarget) {
-  console.log(taskData);
-  const fragment = document.createDocumentFragment;
+  const fragment = new DocumentFragment();
   const input = document.createElement("input");
   const saveButton = document.createElement("button");
 
@@ -31,6 +62,7 @@ const createEditFrom = function (taskData, taskTarget) {
   fragment.appendChild(input);
   fragment.appendChild(saveButton);
 
+  taskTarget?.classList.add("editing");
   taskTarget.appendChild(fragment);
   input.focus();
 
@@ -38,58 +70,35 @@ const createEditFrom = function (taskData, taskTarget) {
     e.preventDefault();
     e.stopPropagation();
     handlerEditTask(taskData.id, taskTarget, input.value, input, saveButton);
+    Dropdown.removeAll();
   });
 };
 
-document.addEventListener("click", function (e) {
-  e.stopPropagation();
-
-  const optionButton = e.target.closest(".js-btn-option");
-  const dropdown = e.target.closest(".js-dropdown");
-  const editButton = e.target.closest(".js-edit-btn");
-  const deleteButton = e.target.closest(".js-delete-btn");
-
-  if (editButton) {
-    console.log("editing..");
-    const taskTarget = editButton.closest(".js-task");
-    const taskId = taskTarget?.getAttribute("data-selection-id");
-    const taskData = window.taskList.find((task) => task.id === taskId);
-
-    createEditFrom(taskData, taskTarget);
-  }
-
-  if (deleteButton) {
-    console.log("delete...");
-  }
-
-  if (optionButton) {
-    const parent = optionButton.parentElement;
-
-    document.querySelector(".js-dropdown")?.remove();
-    document.querySelector(".js-btn-option.active")?.classList.remove("active");
-
-    if (parent.querySelector(".js-dropdown")) {
-      Dropdown.removeAll();
-
-      optionButton.classList.remove("active");
-      optionButton.parentElement.classList.remove("expanded");
-      return;
-    }
-
-    Dropdown.create({
-      parent: parent,
+const handlerEditTask = async function (id, target, newName, input, button) {
+  const taskNameElm = target.querySelector(".task__name");
+  taskNameElm.textContent = newName;
+  try {
+    const response = await taskService.updateName({
+      id,
+      newName,
     });
-    parent.classList.add("expanded");
-    optionButton.classList.add("active");
-  }
 
-  if (dropdown || optionButton) {
-    return;
-  } else {
-    const activeButton = document.querySelector(".js-btn-option.active");
+    if ((await response.status) == 200) {
+      localStorageHandler.updateByIdAndCallback(
+        NAME_ARRAY_LOCAL,
+        id,
+        (item) => {
+          item.name = newName;
+          return item;
+        }
+      );
 
-    Dropdown.removeAll();
-    activeButton?.classList.remove("active");
-    activeButton?.parentElement.classList.remove("expanded");
+      target.classList.remove("editing");
+      input?.remove();
+      button?.remove();
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
   }
-});
+};
