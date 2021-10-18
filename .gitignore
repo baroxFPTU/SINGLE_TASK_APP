@@ -9,3 +9,5 @@ src/config/.env
 # End of https://www.toptal.com/developers/gitignore/api/dotenv
 app/
 javascripts.md
+
+.vscode
