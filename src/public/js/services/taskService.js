@@ -4,6 +4,49 @@ import * as constants from "../constants/index.js";
 
 const { NAME_ARRAY_LOCAL, API_URL } = constants;
 
+const apis = (type) => {
+  const URLs = {
+    newTask: `/task/new`,
+    taskToday: `/task/today`,
+    complete: `/task/completed`,
+    updateName: `/task/`,
+    deleteOne: `/task/delete`,
+  };
+  return API_URL + URLs[type];
+};
+
+const options = (method = "GET", data = "") => {
+  const _options = {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (method !== "GET") {
+    _options.body = JSON.stringify(data);
+  }
+
+  return _options;
+};
+
+const methods = {
+  newTask: "POST",
+  taskToday: "GET",
+  complete: "PUT",
+  updateName: "PATCH",
+  deleteOne: "DELETE",
+};
+
+const fetchPattern = async function (type, data = "") {
+  try {
+    const response = await fetch(apis(type), options(methods[type], data));
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 /**
  * Fetch task data to server.
  * @param {*} task
@@ -14,21 +57,8 @@ const fetchTaskData = async function (task) {
     name: task.name,
     createdAt: task.createdAt,
   };
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
 
-  try {
-    const response = await fetch(`${API_URL}/task/new`, options);
-
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  return await fetchPattern("newTask", data);
 };
 
 /**
@@ -61,24 +91,8 @@ const exchangeID = async function (task) {
  * @returns JSON
  */
 const getTaskToday = async function () {
-  const options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  try {
-    const response = await fetch(`${API_URL}/task/today`, options);
-
-    if (response.status !== 200) {
-      throw new Error();
-    }
-    return response.json();
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
+  const response = await fetchPattern("taskToday");
+  return response.json();
 };
 
 /**
@@ -91,20 +105,8 @@ const fetchComplete = async function (id, timeData) {
     id: id,
     timeData: timeData,
   };
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
 
-  try {
-    const response = await fetch(`${API_URL}/task/completed`, options);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  return await fetchPattern("complete", data);
 };
 
 const updateName = async function ({ id, newName }) {
@@ -113,20 +115,7 @@ const updateName = async function ({ id, newName }) {
     name: newName,
   };
 
-  const options = {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-
-  try {
-    const response = await fetch(`${API_URL}/task/`, options);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  return await fetchPattern("updateName", data);
 };
 
 const deleteOne = async function (id) {
@@ -134,20 +123,7 @@ const deleteOne = async function (id) {
     id: id,
   };
 
-  const options = {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-
-  try {
-    const response = await fetch(`${API_URL}/task/delete/`, options);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  return await fetchPattern("deleteOne", data);
 };
 
 export {

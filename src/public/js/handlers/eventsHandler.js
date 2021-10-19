@@ -1,40 +1,57 @@
 import * as constants from "../constants/index.js";
-import { Dropdown } from "../components/dropdown.js";
 import * as taskHandler from "./taskHandler.js";
 import * as taskService from "../services/taskService.js";
 import * as localStorageHandler from "./localStorageHandler.js";
 import * as dropdownHandler from "./dropdownHandler.js";
+import { Dropdown } from "../components/dropdown.js";
 
-const { input, addButton, NAME_ARRAY_LOCAL, NAME_ONDOING_LOCAL } = constants;
+const { input, NAME_ARRAY_LOCAL } = constants;
 
-export const listen = function () {
-  if (input) {
-    addButton.addEventListener("click", function () {
-      taskHandler.create(input);
-    });
-
-    input.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        taskHandler.create(input);
-      }
-    });
-  }
-
+export const listen = function (taskList) {
   document.addEventListener("click", async function (e) {
     const editButton = e.target.closest(".js-edit-btn");
     const deleteButton = e.target.closest(".js-delete-btn");
+    const _input = e.target.closest(".js-input");
+    const _addButton = e.target.closest(".js-add-button");
     const taskTarget = e.target?.closest(".js-task");
     const taskId = taskTarget?.getAttribute("data-selection-id");
     e.stopPropagation();
 
+    if (_input || _addButton) {
+      _addButton?.addEventListener("click", function () {
+        taskHandler.create(input);
+      });
+
+      _input?.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          taskHandler.create(input);
+        }
+      });
+    }
+
     if (editButton) {
-      console.log("editing..");
       const taskList =
         localStorageHandler.get(NAME_ARRAY_LOCAL) ??
         (await taskHandler.getTaskToday());
       const taskData = taskList.find((task) => task.id === taskId);
 
-      createEditFrom(taskData, taskTarget);
+      const { input, button: saveButton } = createEditFrom(
+        taskData,
+        taskTarget
+      );
+      input.focus();
+      saveButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handlerEditTask(
+          taskData.id,
+          taskTarget,
+          input.value,
+          input,
+          saveButton
+        );
+        Dropdown.removeAll();
+      });
     }
 
     if (deleteButton) {
@@ -42,8 +59,15 @@ export const listen = function () {
         localStorageHandler.get(NAME_ARRAY_LOCAL) ??
         (await taskHandler.getTaskToday());
       const newTaskList = taskList.filter((task) => task.id !== taskId);
+      const isComfirm = confirm("Chắc chưa? Xóa nhé?");
+
+      if (!isComfirm) return;
+
       localStorageHandler.set(NAME_ARRAY_LOCAL, newTaskList);
-      console.log("delete...");
+      if (taskHandler.isCompletedAll(newTaskList)) {
+        taskHandler.renderEmptyTask();
+        taskHandler.resetViewTask();
+      }
       taskTarget.remove();
 
       const response = await taskService.deleteOne(taskId);
@@ -73,14 +97,11 @@ const createEditFrom = function (taskData, taskTarget) {
 
   taskTarget?.classList.add("editing");
   taskTarget.appendChild(fragment);
-  input.focus();
 
-  saveButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    handlerEditTask(taskData.id, taskTarget, input.value, input, saveButton);
-    Dropdown.removeAll();
-  });
+  return {
+    input,
+    button: saveButton,
+  };
 };
 
 const handlerEditTask = async function (id, target, newName, input, button) {

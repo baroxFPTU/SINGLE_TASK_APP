@@ -9,7 +9,6 @@ export const handle = function (eventTarget) {
     if (!Dropdown.isShowing()) {
       return Dropdown.create(optionsContainer, optionButton);
     }
-
     return resetOptionsState();
   }
 

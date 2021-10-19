@@ -261,3 +261,7 @@ POST /auth/facebook/callback
 
 - The gradient for '.tasks' still depend on parent '.app'
 - optimize the step init start button.
+
+## Lessons
+
+- conflict of package-lock.json
