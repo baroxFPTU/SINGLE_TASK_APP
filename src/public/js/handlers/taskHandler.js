@@ -82,9 +82,8 @@ export const renderEmptyTask = () => {
 };
 
 export const create = async function createNewTask(input) {
-  const listTask =
-    localStorageHandler.get(NAME_ARRAY_LOCAL) || (await getTaskToday()) || [];
-  const isInRange = listTask.length <= TASK_LIMIT - 1;
+  const taskList = await getTaskList();
+  const isInRange = taskList.length <= TASK_LIMIT - 1;
   const newTask = {
     id: Date.now(),
     name: input.value.trim(),
@@ -104,11 +103,11 @@ export const create = async function createNewTask(input) {
 };
 
 export const start = async function (id = 0) {
-  const _tasks =
-    localStorageHandler.get(NAME_ARRAY_LOCAL) ?? (await getTaskToday());
+  const taskList = await getTaskList();
+
   const _task =
-    _tasks.find((task) => task.id === id) ??
-    _tasks.find((task) => !task[COMPLETED_KEY_OBJECT]);
+    taskList.find((task) => task.id === id) ??
+    taskList.find((task) => !task[COMPLETED_KEY_OBJECT]);
 
   if (!_task) {
     resetViewTask();
@@ -129,7 +128,7 @@ export const start = async function (id = 0) {
   timer.start();
 };
 
-const resetViewTask = function () {
+export const resetViewTask = function () {
   Button.removeAll();
   [input.parentElement, taskContainer].forEach((elm) => {
     elm.removeAttribute("style");
@@ -158,13 +157,11 @@ export const complete = async function () {
 };
 
 export const updateCompleted = async (taskID) => {
-  const listTask =
-    localStorageHandler.get(NAME_ARRAY_LOCAL) || (await getTaskToday());
-
-  listTask.forEach((task) => {
+  const taskList = await getTaskList();
+  taskList.forEach((task) => {
     if (task.id === taskID) return (task[COMPLETED_KEY_OBJECT] = true);
   });
-  localStorageHandler.set(NAME_ARRAY_LOCAL, listTask);
+  localStorageHandler.set(NAME_ARRAY_LOCAL, taskList);
 };
 
 /**
@@ -175,4 +172,21 @@ export const updateCompleted = async (taskID) => {
 export const isCompletedAll = (list) => {
   const filterList = list.filter((task) => !task[COMPLETED_KEY_OBJECT]);
   return filterList.length == 0 ? true : false;
+};
+
+export const getTaskList = async () => {
+  const taskList =
+    localStorageHandler.get(NAME_ARRAY_LOCAL) || (await getTaskToday());
+
+  return filterTaskOfToday(taskList);
+};
+
+export const filterTaskOfToday = function (list) {
+  return list.filter((task) => isInSameDay(task));
+};
+
+export const isInSameDay = function (task = Date.now()) {
+  const createdDay = new Date(task.createdAt || task).getDay();
+  const today = new Date().getDay();
+  return createdDay === today ?? false;
 };
