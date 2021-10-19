@@ -8,7 +8,6 @@ import { initAPIs } from "./routes/api/index.js";
 
 dotenv.config({ path: "src/config/.env" });
 
-const PORT = process.env.PORT || 2703;
 const app = express();
 connectDB();
 
@@ -25,6 +24,6 @@ app.engine(".hbs", exphbs({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 app.set("views", "src/views");
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 2703, () => {
   console.log("listening on port 2703");
 });
