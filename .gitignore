@@ -5,7 +5,7 @@ node_modules
 ### dotenv ###
 .env
 src/config/.env
-
+package-lock.json
 # End of https://www.toptal.com/developers/gitignore/api/dotenv
 app/
 javascripts.md
