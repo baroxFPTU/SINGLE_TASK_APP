@@ -1,4 +1,4 @@
-import * as taskHander from "./handlers/taskHandler.js";
+import * as taskHandler from "./handlers/taskHandler.js";
 import * as taskService from "./services/taskService.js";
 import * as localStorageHandler from "./handlers/localStorageHandler.js";
 import * as constants from "./constants/index.js";
@@ -14,14 +14,19 @@ const app = (function () {
     const _tasks = _tasksFromLocal || _tasksFromServer;
 
     if (_tasksFromLocal || (await _tasksFromServer)) {
-      localStorage.setItem(NAME_ARRAY_LOCAL, JSON.stringify(_tasks));
+      const _tasksFiltered = filterTaskInSameDay(_tasks);
+      console.log(_tasksFiltered);
+      localStorage.setItem(NAME_ARRAY_LOCAL, JSON.stringify(_tasksFiltered));
 
-      window.taskList = _tasks;
-      _tasks.forEach((task) => {
-        taskHander.render(task);
+      window.taskList = _tasksFiltered;
+      _tasksFiltered.forEach((task) => {
+        if (isInSameDay(task)) {
+          taskHandler.render(task);
+        } else {
+        }
       });
 
-      !taskHander.isCompletedAll(_tasks)
+      !taskHandler.isCompletedAll(_tasksFiltered)
         ? Button.init("start")
         : Button.removeAll();
     }
@@ -33,7 +38,7 @@ const app = (function () {
 
       let ondoingTask =
         JSON.parse(localStorage.getItem(NAME_ONDOING_LOCAL)) || false;
-      if (ondoingTask) return taskHander.start(ondoingTask);
+      if (ondoingTask) return taskHandler.start(ondoingTask);
 
       handleDataOnLoad();
     },
@@ -41,3 +46,13 @@ const app = (function () {
 })();
 
 app.run();
+
+function filterTaskInSameDay(list) {
+  return list.filter((task) => isInSameDay(task));
+}
+
+function isInSameDay(task = Date.now()) {
+  const createdDay = new Date(task.createdAt || task).getDay();
+  const today = new Date().getDay();
+  return createdDay === today ?? false;
+}

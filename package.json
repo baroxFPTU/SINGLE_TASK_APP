@@ -4,7 +4,10 @@
   "description": "Make your life more simple",
   "type": "module",
   "main": "server.js",
-  "scripts": {
+  "engines": {
+    "node": "14.15.1"
+    },
+     "scripts": {
     "start": "node --experimental-specifier-resolution=node src/server.js",
     "dev": "nodemon --experimental-specifier-resolution=node src/server.js",
     "sass": "sass --watch ./app/asset/scss:app/asset/css --style compressed"
