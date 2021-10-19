@@ -1,5 +1,5 @@
 //App constants
-export const API_URL = "http://localhost:2703/api";
+export const API_URL = "/api";
 export const input = document.querySelector(".js-input");
 export const addButton = document.querySelector(".js-add-button");
 export const appContainer = document.querySelector(".js-app-container");
